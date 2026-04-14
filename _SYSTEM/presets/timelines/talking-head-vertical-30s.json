@@ -1,0 +1,192 @@
+{
+  "_meta": {
+    "type": "talking-head-vertical",
+    "target_duration": 30,
+    "style": "editorial-luxury",
+    "aspect": "9:16",
+    "description": "Corporate spotlight: speaker on camera intercut with b-roll. Based on Livitum Diseñadora project (v11). Includes split-screen reveal intro, continuous VO, animated LowerThird, EndCard with social proof.",
+    "sections": [
+      { "name": "hook", "duration": "3-5s", "notes": "B-roll with VO starting. Optional: split-screen before/after reveal overlay." },
+      { "name": "presentation", "duration": "2-3s", "notes": "Speaker on camera. LowerThird appears with name+role. VO continues." },
+      { "name": "showcase", "duration": "8-12s", "notes": "Alternating b-roll clips with speaker VO continuing (J-cut). Audio is ONE continuous take from bruto." },
+      { "name": "cta", "duration": "5-7s", "notes": "Speaker on camera, CTA message. Hold final word 1s before EndCard." },
+      { "name": "endcard", "duration": "3-4s", "notes": "Remotion animation: brand logo + social proof (Trustpilot/reviews)." }
+    ],
+    "qa_targets": {
+      "duration_s": 30,
+      "tolerance_s": 2,
+      "width": 1080,
+      "height": 1920,
+      "loudness_lufs": -14,
+      "sar": "1:1"
+    }
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 18,
+    "pix_fmt": "yuv420p"
+  },
+  "clips": [
+    {
+      "_section": "hook",
+      "_position": 1,
+      "src": "PLACEHOLDER:broll-interior-1",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop-center",
+      "notes": "First b-roll clip. Use green-tagged clips if available. VO starts over this."
+    },
+    {
+      "_section": "hook",
+      "_position": 2,
+      "src": "PLACEHOLDER:broll-interior-2",
+      "in": 0.0,
+      "out": 3.3,
+      "fit": "crop-center",
+      "notes": "Second b-roll clip. VO continues."
+    },
+    {
+      "_section": "presentation",
+      "_position": 3,
+      "src": "PLACEHOLDER:speaker-bruto",
+      "in": "PLACEHOLDER:word-start-of-intro",
+      "out": "PLACEHOLDER:word-end-of-intro",
+      "fit": "face-detect-crop",
+      "notes": "Speaker on camera. Face-centered vertical crop. LowerThird overlaid. Cut AFTER last word of intro, visual cut to b-roll while VO continues."
+    },
+    {
+      "_section": "showcase",
+      "_position": 4,
+      "src": "PLACEHOLDER:broll-interior-3",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop-center",
+      "notes": "B-roll with VO continuing from speaker. Audio is CONTINUOUS — no cut between presentation and showcase."
+    },
+    {
+      "_section": "showcase",
+      "_position": 5,
+      "src": "PLACEHOLDER:broll-interior-4",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop-center",
+      "notes": "Mix old + new clips."
+    },
+    {
+      "_section": "showcase",
+      "_position": 6,
+      "src": "PLACEHOLDER:broll-interior-5",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop-center",
+      "notes": "Another b-roll."
+    },
+    {
+      "_section": "showcase",
+      "_position": 7,
+      "src": "PLACEHOLDER:broll-interior-6",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop-center",
+      "notes": "Last b-roll before CTA."
+    },
+    {
+      "_section": "cta",
+      "_position": 8,
+      "src": "PLACEHOLDER:speaker-bruto",
+      "in": "PLACEHOLDER:word-start-of-cta",
+      "out": "PLACEHOLDER:word-end-of-cta",
+      "fit": "face-detect-crop",
+      "notes": "Speaker CTA. Same face crop as position 3. Hold 1s after last word."
+    },
+    {
+      "_section": "endcard",
+      "_position": 9,
+      "src": "PLACEHOLDER:remotion-endcard",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "exact",
+      "notes": "Remotion animation: logo + social proof. Render with remotion-render.sh."
+    }
+  ],
+  "audio": {
+    "_strategy": "continuous-take",
+    "segments": [
+      {
+        "src": "PLACEHOLDER:speaker-bruto",
+        "in": "PLACEHOLDER:word-start-of-hook-phrase",
+        "out": "PLACEHOLDER:word-end-of-showcase-phrase",
+        "notes": "ONE continuous audio take covering hook through showcase. Cut at word boundaries using word_timestamps=True."
+      },
+      {
+        "src": "PLACEHOLDER:speaker-bruto",
+        "in": "PLACEHOLDER:word-start-of-cta",
+        "out": "PLACEHOLDER:word-end-of-cta",
+        "notes": "CTA audio segment. Separate take from the showcase section."
+      }
+    ],
+    "fade_in_first_segment": 0.03,
+    "notes": "Add 30ms fade-in to first segment to remove any word bleed from previous phrase."
+  },
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "start_offset": 3.9,
+    "volume_under_vo": 0.10,
+    "fade_in_s": 0.5,
+    "fade_out_s": 1.5,
+    "notes": "Music at 10% under VO. Slightly louder on EndCard (no VO)."
+  },
+  "overlays": {
+    "lowerthird": {
+      "method": "drawtext",
+      "name_text": "PLACEHOLDER:speaker-name",
+      "role_text": "PLACEHOLDER:speaker-role",
+      "accent_color": "PLACEHOLDER:brand-accent-color",
+      "appear_at": "PLACEHOLDER:presentation-start + 0.3",
+      "duration": 2.5,
+      "animation": "slide-in-left",
+      "bg_opacity": 0.45,
+      "position_y": 1350,
+      "notes": "Use drawtext, NOT Remotion+colorkey. Slide-in 0.4s, slide-out 0.3s."
+    },
+    "split_screen_reveal": {
+      "enabled": false,
+      "images": {
+        "before": "PLACEHOLDER:before-image.png",
+        "render": "PLACEHOLDER:render-image.png",
+        "after": "PLACEHOLDER:after-image.png"
+      },
+      "method": "remotion-BeforeAfterReveal",
+      "duration": 3.0,
+      "expansion": "top-grows-over-bottom",
+      "notes": "If enabled: split-screen with wipe reveal. Top image expands to cover bottom. Use Remotion for the wipe animation, Python cv2 for the expansion compositing."
+    },
+    "endcard_remotion": {
+      "composition": "PLACEHOLDER:LivitumEndCard or EndCard",
+      "props": {
+        "logoSrc": "PLACEHOLDER:brand-logo.png",
+        "score": "PLACEHOLDER:4,5",
+        "reviewCount": "PLACEHOLDER:184 opiniones"
+      },
+      "notes": "Render with remotion-render.sh. Use real logo PNG, never recreate."
+    }
+  },
+  "subtitles": {
+    "method": "transcribe-assembly",
+    "language": "es",
+    "font": "Inter",
+    "font_size": 10,
+    "bold": true,
+    "margin_v": 40,
+    "alignment": 2,
+    "notes": "Transcribe the ASSEMBLED video, not the bruto. FontSize=10-12 for 1080x1920. Always test on a real frame before burning."
+  },
+  "normalization": {
+    "target_lufs": -14,
+    "target_tp": -1,
+    "method": "two-pass-loudnorm"
+  }
+}

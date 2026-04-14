@@ -1,0 +1,248 @@
+# BMP Video Production — Guía de Instalación
+
+> **Para Claude:** Lee este archivo completo y ejecuta los comandos en orden.
+> Si alguno falla, diagnóstica y arregla antes de continuar.
+
+## Requisitos previos
+
+- macOS (Apple Silicon o Intel)
+- Homebrew instalado (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`)
+- Node.js 18+ (`brew install node`)
+- Python 3.9+ (`brew install python@3.9` o superior)
+
+---
+
+## Paso 1 — Clonar el repositorio
+
+```bash
+cd ~/Documents
+# O donde quieras tener el workspace
+git clone https://github.com/xavierbmp/bmp-video-production.git "00_BMP/02_VIDEO EDITS"
+cd "00_BMP/02_VIDEO EDITS"
+```
+
+---
+
+## Paso 2 — Instalar herramientas de sistema (brew)
+
+```bash
+# Core video/audio
+brew install ffmpeg jq mediainfo imagemagick tesseract sox rubberband yt-dlp
+
+# Versión completa de ffmpeg con todos los codecs
+brew install ffmpeg-full 2>/dev/null || echo "ffmpeg already installed"
+
+# Fonts editoriales
+brew install --cask font-playfair-display font-inter font-libre-baskerville font-dm-serif-display
+```
+
+**Verificar:**
+```bash
+ffmpeg -version | head -1
+ffprobe -version | head -1
+jq --version
+```
+
+---
+
+## Paso 3 — Crear entorno Python
+
+```bash
+cd _SYSTEM
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Instalar paquetes de producción de video
+pip install \
+  "scenedetect[opencv]" \
+  librosa \
+  numpy \
+  Pillow \
+  moviepy \
+  opencv-python-headless \
+  soundfile \
+  faster-whisper \
+  "rembg[cpu]" \
+  onnxruntime \
+  color-matcher \
+  stable-ts \
+  demucs \
+  ffmpeg-quality-metrics \
+  scipy \
+  scikit-image
+
+deactivate
+cd ..
+```
+
+**Verificar:**
+```bash
+_SYSTEM/.venv/bin/python3 -c "import cv2; print('OpenCV', cv2.__version__)"
+_SYSTEM/.venv/bin/python3 -c "from faster_whisper import WhisperModel; print('faster-whisper OK')"
+_SYSTEM/.venv/bin/python3 -c "import librosa; print('librosa OK')"
+```
+
+---
+
+## Paso 4 — Instalar herramientas CLI (pipx)
+
+```bash
+brew install pipx
+pipx ensurepath
+
+pipx install auto-editor
+pipx install openai-whisper
+```
+
+**Verificar:**
+```bash
+auto-editor --version
+whisper --help | head -1
+```
+
+---
+
+## Paso 5 — Instalar Remotion (motion graphics)
+
+```bash
+cd _SYSTEM/motion/bmp-motion
+npm install
+cd ../../..
+```
+
+**Verificar:**
+```bash
+cd _SYSTEM/motion/bmp-motion
+npx remotion compositions 2>/dev/null | head -5
+cd ../../..
+```
+
+---
+
+## Paso 6 — Crear carpetas locales
+
+Estas carpetas NO están en git (son locales de cada máquina):
+
+```bash
+mkdir -p CLIENTS
+mkdir -p 00_INBOX
+mkdir -p _DELIVERABLES
+mkdir -p _ASSETS/music _ASSETS/stock _ASSETS/sfx _ASSETS/fonts
+```
+
+---
+
+## Paso 7 — Hacer scripts ejecutables
+
+```bash
+chmod +x _SYSTEM/scripts/*.sh
+chmod +x _SYSTEM/scripts/*.py
+```
+
+---
+
+## Paso 8 — Verificar que todo funciona
+
+```bash
+# Test: crear un cliente de prueba
+_SYSTEM/scripts/new-client.sh "Test"
+
+# Test: buscar template
+_SYSTEM/scripts/template-selector.sh --keywords "talking head vertical 30s"
+
+# Test: face detection (necesita un video de prueba)
+# _SYSTEM/scripts/face-detect-crop.py video.mp4 --target 1080x1920 --verify /tmp/test.jpg
+
+# Limpiar test
+rm -rf CLIENTS/Test
+```
+
+---
+
+## Paso 9 — Configurar Claude Code
+
+Si usas Claude Code (CLI), asegúrate de tener el proyecto apuntando a este directorio:
+
+```bash
+# Claude Code lee automáticamente CLAUDE.md al abrir el proyecto
+# No hace falta configuración adicional
+cd "ruta/a/00_BMP/02_VIDEO EDITS"
+claude
+```
+
+Claude leerá automáticamente:
+1. `CLAUDE.md` — reglas, workflow, anti-patrones
+2. `_SYSTEM/VERIFY_CHECKLIST.md` — checks por operación
+3. `_SYSTEM/RESOURCE_GUIDE.md` — catálogo de recursos
+
+---
+
+## Estructura del workspace
+
+```
+02_VIDEO EDITS/
+├── CLAUDE.md               ← Reglas y workflow (Claude lee esto siempre)
+├── README.md               ← Quickstart para humanos
+├── INSTALL.md              ← Esta guía
+├── .gitignore
+├── _SYSTEM/                ← EL TOOLKIT (esto es lo que comparte el equipo)
+│   ├── scripts/            ← 32+ scripts de producción
+│   ├── motion/bmp-motion/  ← Remotion (25 composiciones de motion graphics)
+│   ├── presets/            ← Timelines, subtítulos, export, LUTs
+│   ├── templates/          ← Template de proyecto para nuevos clientes
+│   ├── config/             ← Brand config (colores, fonts)
+│   ├── tools/              ← Briefing form HTML
+│   ├── VERIFY_CHECKLIST.md
+│   ├── RESOURCE_GUIDE.md
+│   └── BRAINSTORM_MEJORAS.md
+├── _ASSETS/                ← Logos/assets compartidos del estudio
+│   └── logos/
+├── CLIENTS/                ← [LOCAL] Proyectos de clientes (no en git)
+├── 00_INBOX/               ← [LOCAL] Material sin procesar
+└── _DELIVERABLES/          ← [LOCAL] Archivos finales entregados
+```
+
+---
+
+## Actualizar el toolkit
+
+Cuando alguien mejora un script o añade una composición Remotion:
+
+```bash
+cd "ruta/a/00_BMP/02_VIDEO EDITS"
+git pull
+```
+
+Los proyectos de clientes no se tocan (están en .gitignore).
+
+---
+
+## Troubleshooting
+
+### "ffmpeg not found"
+```bash
+brew install ffmpeg
+```
+
+### "No module named 'cv2'"
+```bash
+source _SYSTEM/.venv/bin/activate
+pip install opencv-python-headless
+```
+
+### "remotion: command not found"
+```bash
+cd _SYSTEM/motion/bmp-motion
+npm install
+```
+
+### Scripts no ejecutables
+```bash
+chmod +x _SYSTEM/scripts/*.sh _SYSTEM/scripts/*.py
+```
+
+### Fonts no aparecen en ffmpeg
+```bash
+brew install --cask font-playfair-display font-inter font-dm-serif-display font-libre-baskerville
+# Las fonts se instalan en ~/Library/Fonts/
+```

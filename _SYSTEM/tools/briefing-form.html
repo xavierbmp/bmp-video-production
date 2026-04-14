@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMP — Video Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0A0A;
+      --card:      #141414;
+      --border:    #333333;
+      --input-bg:  #1A1A1A;
+      --text:      #F2F0EB;
+      --muted:     #888880;
+      --accent:    #C6A35D;
+      --accent-dk: #A8863D;
+      --danger:    #C65D5D;
+      --radius:    6px;
+      --gap:       24px;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--accent);
+    }
+    .header-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .autosave-badge {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+    .autosave-badge.saved { color: #6AAF6A; }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Section cards ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: var(--gap);
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ── Grid ── */
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .row-2 { grid-template-columns: 1fr; } }
+
+    /* ── Labels & fields ── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    label span.required { color: var(--accent); margin-left: 2px; }
+
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 10px 14px;
+      transition: border-color 0.15s;
+      width: 100%;
+      outline: none;
+    }
+    input[type="text"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus { border-color: var(--accent); }
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888880' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    select option { background: var(--input-bg); }
+    textarea { resize: vertical; }
+
+    /* ── Checkboxes & Radios ── */
+    .check-group, .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .check-pill, .radio-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .check-pill:hover, .radio-pill:hover { border-color: var(--accent); }
+    .check-pill input, .radio-pill input { accent-color: var(--accent); width: 14px; height: 14px; }
+    .check-pill:has(input:checked),
+    .radio-pill:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(198, 163, 93, 0.08);
+    }
+
+    /* ── Range slider ── */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .slider-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 56px;
+      text-align: right;
+    }
+
+    /* ── Toggle ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .toggle {
+      position: relative;
+      width: 42px;
+      height: 24px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    .toggle-thumb {
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      background: var(--muted);
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle input:checked ~ .toggle-track { background: var(--accent); }
+    .toggle input:checked ~ .toggle-thumb { transform: translateX(18px); background: #fff; }
+    .toggle-label { font-size: 14px; }
+
+    /* ── Dynamic link lists ── */
+    .link-list { display: flex; flex-direction: column; gap: 8px; }
+    .link-item { display: flex; gap: 8px; align-items: center; }
+    .link-item input { flex: 1; }
+    .btn-remove {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      height: 40px;
+      width: 40px;
+      line-height: 1;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .btn-remove:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* ── Buttons ── */
+    .btn-add {
+      background: none;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 8px 16px;
+      transition: border-color 0.15s, color 0.15s;
+      margin-top: 4px;
+    }
+    .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: #0A0A0A;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 12px 28px;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-dk); }
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      padding: 12px 24px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* ── Conditional panels ── */
+    .cond { display: none; margin-top: 12px; }
+    .cond.visible { display: block; }
+
+    /* ── Dividers inside cards ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    /* ── Hint text ── */
+    .hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">BMP</div>
+    <div class="header-sub">Video Brief</div>
+  </div>
+  <div class="autosave-badge" id="autosave-badge">Auto-save active</div>
+</header>
+
+<main class="page">
+
+  <!-- 1 & 2. Client + Project -->
+  <div class="card">
+    <div class="card-title">Project Identity</div>
+    <div class="row-2">
+      <div class="field">
+        <label for="client">Client name<span class="required">*</span></label>
+        <input type="text" id="client" placeholder="e.g. Livitum" />
+      </div>
+      <div class="field">
+        <label for="project">Project name<span class="required">*</span></label>
+        <input type="text" id="project" placeholder="e.g. SS26Launch" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Video type -->
+  <div class="card">
+    <div class="card-title">Video Type</div>
+    <div class="field">
+      <label for="video_type">Format</label>
+      <select id="video_type">
+        <option value="saas">SaaS Product Ad</option>
+        <option value="fashion">Fashion / Lifestyle Ad</option>
+        <option value="brand">Brand Film</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <hr class="divider" />
+    <div class="field">
+      <label for="description">Description<span class="required">*</span></label>
+      <textarea id="description" rows="4" placeholder="Describe the video concept, key messages, mood, references…"></textarea>
+    </div>
+  </div>
+
+  <!-- 4. Format -->
+  <div class="card">
+    <div class="card-title">Format</div>
+    <div class="field">
+      <label>Aspect ratio</label>
+      <div class="check-group" id="aspect_ratios">
+        <label class="check-pill"><input type="checkbox" value="9:16" /> 9:16 Vertical</label>
+        <label class="check-pill"><input type="checkbox" value="16:9" /> 16:9 Horizontal</label>
+        <label class="check-pill"><input type="checkbox" value="1:1" /> 1:1 Square</label>
+        <label class="check-pill"><input type="checkbox" value="4:5" /> 4:5 Portrait</label>
+      </div>
+    </div>
+    <hr class="divider" />
+    <div class="field">
+      <label>Target duration</label>
+      <div class="slider-row">
+        <input type="range" id="duration" min="15" max="120" step="5" value="30" />
+        <div class="slider-value"><span id="duration-label">30</span>s</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Platforms -->
+  <div class="card">
+    <div class="card-title">Target Platforms</div>
+    <div class="check-group" id="platforms">
+      <label class="check-pill"><input type="checkbox" value="instagram-reel" /> IG Reel</label>
+      <label class="check-pill"><input type="checkbox" value="instagram-story" /> IG Story</label>
+      <label class="check-pill"><input type="checkbox" value="instagram-feed" /> IG Feed</label>
+      <label class="check-pill"><input type="checkbox" value="tiktok" /> TikTok</label>
+      <label class="check-pill"><input type="checkbox" value="youtube" /> YouTube</label>
+      <label class="check-pill"><input type="checkbox" value="youtube-shorts" /> YT Shorts</label>
+      <label class="check-pill"><input type="checkbox" value="linkedin" /> LinkedIn</label>
+    </div>
+  </div>
+
+  <!-- 6. Mood & References -->
+  <div class="card">
+    <div class="card-title">Mood &amp; References</div>
+    <div class="field">
+      <label for="mood">Mood — 3 keywords</label>
+      <input type="text" id="mood" placeholder="e.g. elegant, warm, confident" />
+    </div>
+    <hr class="divider" />
+    <div class="field">
+      <label>Reference links</label>
+      <div class="link-list" id="ref-links-list"></div>
+      <button class="btn-add" id="btn-add-ref" type="button">+ Add reference</button>
+      <p class="hint">Ads, films, or any URL that captures the direction you want.</p>
+    </div>
+    <hr class="divider" />
+    <div class="field">
+      <label>Google Drive links</label>
+      <div class="link-list" id="drive-links-list"></div>
+      <button class="btn-add" id="btn-add-drive" type="button">+ Add Drive link</button>
+      <p class="hint">Footage folders, asset folders, or shared documents.</p>
+    </div>
+  </div>
+
+  <!-- 7. Music -->
+  <div class="card">
+    <div class="card-title">Music</div>
+    <div class="field">
+      <label for="music_type">Music source</label>
+      <select id="music_type">
+        <option value="provided">I'll provide the track</option>
+        <option value="none">No music</option>
+        <option value="describe">Describe what I want</option>
+      </select>
+    </div>
+    <div class="cond" id="music-describe-panel">
+      <div class="field">
+        <label for="music_description">Music description</label>
+        <textarea id="music_description" rows="3" placeholder="e.g. Minimal piano, 80-90 BPM, cinematic, melancholic. No lyrics. Similar to Olafur Arnalds."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Subtitles -->
+  <div class="card">
+    <div class="card-title">Subtitles</div>
+    <label class="toggle-row">
+      <div class="toggle">
+        <input type="checkbox" id="subtitles_enabled" />
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="toggle-label">Burn subtitles into video</span>
+    </label>
+    <div class="cond" id="subtitles-panel">
+      <div class="field" style="margin-top:14px;">
+        <label for="subtitles_lang">Subtitle language</label>
+        <select id="subtitles_lang">
+          <option value="es">Spanish</option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
+          <option value="pt">Portuguese</option>
+          <option value="it">Italian</option>
+          <option value="de">German</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Watermark -->
+  <div class="card">
+    <div class="card-title">Watermark</div>
+    <div class="radio-group" id="watermark">
+      <label class="radio-pill"><input type="radio" name="watermark" value="none" checked /> None</label>
+      <label class="radio-pill"><input type="radio" name="watermark" value="bmp" /> BMP studio mark</label>
+      <label class="radio-pill"><input type="radio" name="watermark" value="client" /> Client logo</label>
+    </div>
+  </div>
+
+  <!-- 10. Notes -->
+  <div class="card">
+    <div class="card-title">Notes &amp; Special Requests</div>
+    <div class="field">
+      <textarea id="notes" rows="3" placeholder="Anything else Claude should know — restrictions, must-include shots, delivery deadline, colour palette, font preferences…"></textarea>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-primary" id="btn-download" type="button">Download Brief (JSON)</button>
+    <button class="btn-ghost" id="btn-clear" type="button">Clear Form</button>
+  </div>
+
+</main>
+
+<script>
+  /* ─────────────────────────────────────────────
+     Helpers
+  ───────────────────────────────────────────── */
+  const $ = id => document.getElementById(id);
+
+  /* ─────────────────────────────────────────────
+     Duration slider
+  ───────────────────────────────────────────── */
+  $('duration').addEventListener('input', () => {
+    $('duration-label').textContent = $('duration').value;
+  });
+
+  /* ─────────────────────────────────────────────
+     Music conditional panel
+  ───────────────────────────────────────────── */
+  function updateMusicPanel() {
+    const show = $('music_type').value === 'describe';
+    $('music-describe-panel').classList.toggle('visible', show);
+  }
+  $('music_type').addEventListener('change', updateMusicPanel);
+
+  /* ─────────────────────────────────────────────
+     Subtitles conditional panel
+  ───────────────────────────────────────────── */
+  function updateSubtitlesPanel() {
+    $('subtitles-panel').classList.toggle('visible', $('subtitles_enabled').checked);
+  }
+  $('subtitles_enabled').addEventListener('change', updateSubtitlesPanel);
+
+  /* ─────────────────────────────────────────────
+     Dynamic link lists — safe DOM construction
+  ───────────────────────────────────────────── */
+  function clearChildren(el) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+  }
+
+  function makeLinkItem(listId, placeholder) {
+    const list = $(listId);
+    const items = list.querySelectorAll('.link-item');
+    if (items.length >= 10) return;
+
+    const div = document.createElement('div');
+    div.className = 'link-item';
+
+    const input = document.createElement('input');
+    input.type = 'url';
+    input.placeholder = placeholder;
+    input.addEventListener('input', scheduleSave);
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-remove';
+    btn.type = 'button';
+    btn.textContent = '\u00D7';
+    btn.title = 'Remove';
+    btn.addEventListener('click', () => { div.remove(); scheduleSave(); });
+
+    div.appendChild(input);
+    div.appendChild(btn);
+    list.appendChild(div);
+  }
+
+  $('btn-add-ref').addEventListener('click', () => makeLinkItem('ref-links-list', 'https://'));
+  $('btn-add-drive').addEventListener('click', () => makeLinkItem('drive-links-list', 'https://drive.google.com/'));
+
+  // Seed one entry each on load
+  makeLinkItem('ref-links-list', 'https://');
+  makeLinkItem('drive-links-list', 'https://drive.google.com/');
+
+  /* ─────────────────────────────────────────────
+     Collect form data
+  ───────────────────────────────────────────── */
+  function getChecked(groupId) {
+    return [...$(groupId).querySelectorAll('input[type="checkbox"]:checked')].map(el => el.value);
+  }
+  function getLinkValues(listId) {
+    return [...$(listId).querySelectorAll('input[type="url"]')]
+      .map(el => el.value.trim())
+      .filter(Boolean);
+  }
+  function getRadio(name) {
+    const el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+
+  function collectData() {
+    return {
+      client:           $('client').value.trim(),
+      project:          $('project').value.trim(),
+      video_type:       $('video_type').value,
+      description:      $('description').value.trim(),
+      aspect_ratios:    getChecked('aspect_ratios'),
+      duration_seconds: parseInt($('duration').value, 10),
+      platforms:        getChecked('platforms'),
+      mood:             $('mood').value.trim(),
+      reference_links:  getLinkValues('ref-links-list'),
+      drive_links:      getLinkValues('drive-links-list'),
+      music: {
+        type:        $('music_type').value,
+        description: $('music_type').value === 'describe' ? $('music_description').value.trim() : ''
+      },
+      subtitles: {
+        enabled:  $('subtitles_enabled').checked,
+        language: $('subtitles_enabled').checked ? $('subtitles_lang').value : null
+      },
+      watermark: getRadio('watermark'),
+      notes:     $('notes').value.trim()
+    };
+  }
+
+  /* ─────────────────────────────────────────────
+     Restore form from saved object
+  ───────────────────────────────────────────── */
+  function restoreData(d) {
+    if (!d) return;
+
+    function setVal(id, val) {
+      const el = $(id);
+      if (el && val !== undefined && val !== null) el.value = val;
+    }
+
+    setVal('client',           d.client);
+    setVal('project',          d.project);
+    setVal('video_type',       d.video_type);
+    setVal('description',      d.description);
+    setVal('mood',             d.mood);
+    setVal('notes',            d.notes);
+
+    if (d.duration_seconds) {
+      $('duration').value = d.duration_seconds;
+      $('duration-label').textContent = d.duration_seconds;
+    }
+
+    if (Array.isArray(d.aspect_ratios)) {
+      $('aspect_ratios').querySelectorAll('input').forEach(el => {
+        el.checked = d.aspect_ratios.includes(el.value);
+      });
+    }
+    if (Array.isArray(d.platforms)) {
+      $('platforms').querySelectorAll('input').forEach(el => {
+        el.checked = d.platforms.includes(el.value);
+      });
+    }
+
+    if (d.music) {
+      setVal('music_type', d.music.type);
+      if (d.music.description) setVal('music_description', d.music.description);
+      updateMusicPanel();
+    }
+
+    if (d.subtitles) {
+      $('subtitles_enabled').checked = d.subtitles.enabled;
+      if (d.subtitles.language) setVal('subtitles_lang', d.subtitles.language);
+      updateSubtitlesPanel();
+    }
+
+    if (d.watermark) {
+      const r = document.querySelector('input[name="watermark"][value="' + d.watermark + '"]');
+      if (r) r.checked = true;
+    }
+
+    if (Array.isArray(d.reference_links) && d.reference_links.length) {
+      clearChildren($('ref-links-list'));
+      d.reference_links.forEach(url => {
+        makeLinkItem('ref-links-list', 'https://');
+        const inputs = $('ref-links-list').querySelectorAll('input[type="url"]');
+        inputs[inputs.length - 1].value = url;
+      });
+    }
+    if (Array.isArray(d.drive_links) && d.drive_links.length) {
+      clearChildren($('drive-links-list'));
+      d.drive_links.forEach(url => {
+        makeLinkItem('drive-links-list', 'https://drive.google.com/');
+        const inputs = $('drive-links-list').querySelectorAll('input[type="url"]');
+        inputs[inputs.length - 1].value = url;
+      });
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+     Auto-save to localStorage (every 5s)
+  ───────────────────────────────────────────── */
+  const LS_KEY = 'bmp-brief-draft';
+  let saveTimer = null;
+
+  function save() {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(collectData()));
+      const badge = $('autosave-badge');
+      badge.textContent = 'Draft saved';
+      badge.className = 'autosave-badge saved';
+      setTimeout(() => {
+        badge.textContent = 'Auto-save active';
+        badge.className = 'autosave-badge';
+      }, 2000);
+    } catch (e) { /* storage unavailable */ }
+  }
+
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(save, 500);
+  }
+
+  setInterval(save, 5000);
+
+  ['client','project','video_type','description','mood','notes',
+   'duration','music_type','music_description','subtitles_enabled','subtitles_lang']
+    .forEach(id => {
+      const el = $(id);
+      if (el) el.addEventListener('input', scheduleSave);
+    });
+
+  $('aspect_ratios').addEventListener('change', scheduleSave);
+  $('platforms').addEventListener('change', scheduleSave);
+  $('watermark').addEventListener('change', scheduleSave);
+
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) restoreData(JSON.parse(saved));
+  } catch (e) { /* ignore */ }
+
+  /* ─────────────────────────────────────────────
+     Download Brief as JSON
+  ───────────────────────────────────────────── */
+  $('btn-download').addEventListener('click', () => {
+    const data = collectData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'brief-input.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    save();
+  });
+
+  /* ─────────────────────────────────────────────
+     Clear form
+  ───────────────────────────────────────────── */
+  $('btn-clear').addEventListener('click', () => {
+    if (!confirm('Clear the entire form and delete the saved draft?')) return;
+    localStorage.removeItem(LS_KEY);
+    document.querySelectorAll('input[type="text"], input[type="url"], textarea').forEach(el => { el.value = ''; });
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => { el.checked = false; });
+    const noneRadio = document.querySelector('input[name="watermark"][value="none"]');
+    if (noneRadio) noneRadio.checked = true;
+    $('video_type').value = 'saas';
+    $('music_type').value = 'provided';
+    $('subtitles_lang').value = 'es';
+    $('duration').value = 30;
+    $('duration-label').textContent = 30;
+    updateMusicPanel();
+    updateSubtitlesPanel();
+    clearChildren($('ref-links-list'));
+    clearChildren($('drive-links-list'));
+    makeLinkItem('ref-links-list', 'https://');
+    makeLinkItem('drive-links-list', 'https://drive.google.com/');
+  });
+</script>
+</body>
+</html>

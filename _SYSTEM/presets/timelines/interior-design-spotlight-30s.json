@@ -1,0 +1,143 @@
+{
+  "_meta": {
+    "type": "interior-design-spotlight",
+    "target_duration": 30,
+    "style": "editorial-luxury",
+    "aspect": "9:16",
+    "description": "Interior design brand video. Based on Livitum v11 final. Split-screen before/after intro + designer speaking + b-roll showcase + animated EndCard with Trustpilot social proof.",
+    "derived_from": "Livitum Diseñadora v11 (Apr 2026)",
+    "sections": [
+      { "name": "reveal", "duration": "3-4s", "notes": "Split-screen: top=before/render/after wipe animation, bottom=b-roll clip. Top expands to cover bottom at end." },
+      { "name": "hook", "duration": "2-3s", "notes": "First b-roll clip at full frame. VO playing: Te ayudaré / Transformamos / etc." },
+      { "name": "intro+showcase", "duration": "10-13s", "notes": "Designer on camera (intro) then CONTINUOUS audio into b-roll intercuts (showcase). ONE audio take, visual cuts at phrase boundaries." },
+      { "name": "cta", "duration": "5-7s", "notes": "Designer on camera. CTA + closing phrase. Hold 1s." },
+      { "name": "endcard", "duration": "3-4s", "notes": "Remotion: logo appears centered → slides left → text reveals → Trustpilot badge." }
+    ],
+    "qa_targets": {
+      "duration_s": 30,
+      "tolerance_s": 2,
+      "width": 1080,
+      "height": 1920,
+      "loudness_lufs": -14,
+      "sar": "1:1"
+    },
+    "lessons_learned": [
+      "Audio: always cut at word_timestamps, never segment level. Add 30ms fade-in to remove bleed.",
+      "Crop: always face-detect for vertical reframe. Never arithmetic center.",
+      "Subtitles: FontSize=10-12 for 1080x1920. Always test on real frame.",
+      "LowerThird: use drawtext, not Remotion+colorkey. Position at y=1350 to avoid subtitle overlap.",
+      "EndCard: use REAL logo PNG. Never recreate in SVG. Overflow-hidden mask for text reveal.",
+      "Split-screen: use Remotion for wipe animation, Python cv2 for expansion compositing.",
+      "Layer order: growing layer must be overlaid LAST (on top).",
+      "SAR: always setsar=1 after any scale. Always verify with ffprobe.",
+      "Audio: never use afade=t=out for mid-stream fixes. It kills all subsequent audio.",
+      "-shortest: always verify output duration isn't truncating speech."
+    ]
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 18,
+    "pix_fmt": "yuv420p"
+  },
+  "clips": [
+    {
+      "_section": "reveal",
+      "_position": 0,
+      "type": "split-screen",
+      "top": {
+        "method": "remotion-BeforeAfterReveal",
+        "images": ["PLACEHOLDER:before.png", "PLACEHOLDER:render.png", "PLACEHOLDER:after.png"],
+        "height": 1060,
+        "crop_from_remotion": "crop=1080:810:0:555,scale=1080:1060"
+      },
+      "bottom": {
+        "src": "PLACEHOLDER:broll-clip",
+        "height": 860,
+        "crop": "scale=1080:-1,crop=1080:860:0:(ih-860)/2"
+      },
+      "expansion": {
+        "method": "python-cv2",
+        "duration_s": 0.7,
+        "direction": "top-covers-bottom",
+        "source_image": "PLACEHOLDER:after-fullframe.png (1080x1920 cover crop)",
+        "notes": "After wipe completes, top image grows from 1060→1920px. Use Python cv2 frame-by-frame: overlay después on split-screen base, growing height each frame."
+      },
+      "crossfade_to_next": 0.3
+    },
+    {
+      "_section": "hook",
+      "_position": 1,
+      "src": "PLACEHOLDER:broll-clip-2",
+      "duration": "remaining-after-reveal",
+      "fit": "scale=1080:-1,crop=1080:1920:0:0,setsar=1",
+      "notes": "Full-frame b-roll. VO plays over this."
+    },
+    {
+      "_section": "intro+showcase",
+      "_position": 2,
+      "type": "continuous-audio-with-visual-cuts",
+      "audio_src": "PLACEHOLDER:bruto",
+      "audio_in": "PLACEHOLDER:word-timestamp-of-first-word",
+      "audio_out": "PLACEHOLDER:word-timestamp-of-last-word",
+      "audio_fade_in_ms": 30,
+      "visual_segments": [
+        { "type": "speaker-on-camera", "duration": "until-phrase-end", "crop": "face-detect", "overlay": "drawtext-lowerthird" },
+        { "type": "broll", "src": "PLACEHOLDER:broll-3", "duration": 2.5, "fit": "crop-center" },
+        { "type": "broll", "src": "PLACEHOLDER:broll-4", "duration": 2.5, "fit": "crop-center" },
+        { "type": "broll", "src": "PLACEHOLDER:broll-5", "duration": 2.5, "fit": "crop-center" },
+        { "type": "broll", "src": "PLACEHOLDER:broll-6", "duration": 2.5, "fit": "crop-center" }
+      ],
+      "notes": "ONE audio file. Visual cuts happen independently. J-cut: audio continues over b-roll."
+    },
+    {
+      "_section": "cta",
+      "_position": 3,
+      "src": "PLACEHOLDER:bruto",
+      "in": "PLACEHOLDER:cta-word-start",
+      "out": "PLACEHOLDER:cta-word-end",
+      "fit": "face-detect-crop",
+      "notes": "Same face crop as intro. Hold 1s after last word."
+    },
+    {
+      "_section": "endcard",
+      "_position": 4,
+      "type": "remotion",
+      "composition": "LivitumEndCard-Vertical",
+      "duration": 4.0,
+      "props": {
+        "logoSrc": "PLACEHOLDER:brand-logo.png",
+        "score": "PLACEHOLDER:trustpilot-score",
+        "reviewCount": "PLACEHOLDER:review-count"
+      },
+      "animation": "icon-centered → overflow-hidden-expand → text-reveals → trustpilot-slides-up",
+      "notes": "Use REAL logo PNG. Icon starts centered, wrapper expands to reveal text. No separate orange circle. Trustpilot in official green-box-star format."
+    }
+  ],
+  "subtitles": {
+    "method": "transcribe-assembly-then-burn",
+    "language": "es",
+    "style": {
+      "font": "Inter",
+      "font_size": 10,
+      "bold": true,
+      "color": "white",
+      "shadow": true,
+      "margin_v": 40,
+      "alignment": 2
+    }
+  },
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "start_at_beat": "PLACEHOLDER:beat-offset",
+    "volume_during_vo": 0.10,
+    "fade_in": 0.5,
+    "fade_out": 1.5
+  },
+  "normalization": {
+    "target_lufs": -14,
+    "method": "two-pass-loudnorm"
+  }
+}

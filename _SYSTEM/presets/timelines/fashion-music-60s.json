@@ -1,0 +1,212 @@
+{
+  "_meta": {
+    "type": "fashion-lifestyle",
+    "target_duration": 60,
+    "style": "editorial-luxury",
+    "description": "60-second fashion/lifestyle ad. Music-first. Extended editorial sequence with a dedicated detail-inserts section for product close-ups. Purely visual — no dialogue, no supers beyond brand identity.",
+    "sections": [
+      {"name": "Cold open",      "start": 0,  "duration": 2,  "notes": "Single atmospheric frame. Room tone or music ambient only. Sets the world."},
+      {"name": "Brand reveal",   "start": 2,  "duration": 4,  "notes": "Brand name or season title over hero visual. Crossfade in."},
+      {"name": "Editorial",      "start": 6,  "duration": 24, "notes": "5–6 editorial shots. Widths vary: establishing → medium → detail. Cuts on musical phrase ends every 4–5s."},
+      {"name": "Detail inserts", "start": 30, "duration": 15, "notes": "Tight product-focused details: texture, construction, label, silhouette. Faster rhythm — 2–3s per cut."},
+      {"name": "Campaign line",  "start": 45, "duration": 10, "notes": "Tagline + season identifier. Clip with minimal motion. Music decelerates or reaches a quiet phrase here."},
+      {"name": "Logo sting",     "start": 55, "duration": 5,  "notes": "Brand logo on solid or atmospheric bg. Music fades on last beat. 1s silence after music ends."}
+    ]
+  },
+
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 16,
+    "audio_codec": "aac",
+    "audio_bitrate": "256k"
+  },
+
+  "clips": [
+    {
+      "_section": "Cold open",
+      "src": "PLACEHOLDER:cold-open-atmosphere",
+      "in": 0.0,
+      "out": 2.0,
+      "fit": "crop",
+      "notes": "Mood-setter. Texture, environment, or abstract motion. No faces yet."
+    },
+    {
+      "_section": "Brand reveal",
+      "src": "PLACEHOLDER:brand-hero-shot",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Hero product or model in brand context. Deliberate, confident."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-establishing-wide",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Wide establishing shot — location or set context."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-model-full-length",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Full-length or 3/4 model shot showing the outfit / collection piece."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-movement-flowing",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Motion-forward shot: fabric flow, hair movement, environmental texture in wind."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-model-medium-gaze",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Medium close-up of model. Gaze or expression is the focus."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-environmental-context",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Product in context — worn, used, or placed in the aspirational environment."
+    },
+    {
+      "_section": "Editorial",
+      "src": "PLACEHOLDER:editorial-signature-moment",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "The most cinematic shot of the session. Save it for the editorial finale."
+    },
+    {
+      "_section": "Detail inserts",
+      "src": "PLACEHOLDER:detail-texture-close",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Extreme close on fabric texture, weave, or material surface."
+    },
+    {
+      "_section": "Detail inserts",
+      "src": "PLACEHOLDER:detail-hardware-or-clasp",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Metal hardware, zipper, button, or closure detail."
+    },
+    {
+      "_section": "Detail inserts",
+      "src": "PLACEHOLDER:detail-label-or-logo-embossed",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Brand label, embossed logo, or signature element."
+    },
+    {
+      "_section": "Detail inserts",
+      "src": "PLACEHOLDER:detail-silhouette-cutout",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Graphic silhouette or contour shot — edge, seam, or drape."
+    },
+    {
+      "_section": "Detail inserts",
+      "src": "PLACEHOLDER:detail-lifestyle-hands-or-gesture",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Hands interacting with product — fastening, holding, or touching."
+    },
+    {
+      "_section": "Campaign line",
+      "src": "PLACEHOLDER:campaign-line-slow-clip",
+      "in": 0.0,
+      "out": 10.0,
+      "fit": "crop",
+      "notes": "Low-motion clip (or still with subtle ken-burns). Tagline holds for full section."
+    },
+    {
+      "_section": "Logo sting",
+      "src": "PLACEHOLDER:logo-sting-solid-bg",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Brand logo on solid bg. Music fades here."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.3
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -6,
+    "duck": false,
+    "fade_in": 0.0,
+    "fade_out": 2.0,
+    "notes": "Music is primary — no ducking. Align track start to visual cold open. Fade out over logo sting."
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Brand reveal",
+      "text": "PLACEHOLDER: BRAND NAME",
+      "start": 2.5,
+      "duration": 3.0,
+      "pos": "middle",
+      "size": 88,
+      "font": "Playfair Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 12,
+      "animation": "fade"
+    },
+    {
+      "_section": "Campaign line",
+      "text": "PLACEHOLDER: Campaign tagline",
+      "start": 45.5,
+      "duration": 7.0,
+      "pos": "middle",
+      "size": 56,
+      "font": "Playfair Display",
+      "weight": "Italic",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 4,
+      "animation": "fade"
+    },
+    {
+      "_section": "Campaign line",
+      "text": "PLACEHOLDER: Season / Collection",
+      "start": 45.5,
+      "duration": 7.0,
+      "pos": "bottom",
+      "size": 36,
+      "font": "Inter",
+      "weight": "Light",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 8,
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": null,
+  "loudness_lufs": -14
+}

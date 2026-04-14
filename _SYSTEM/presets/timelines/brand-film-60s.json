@@ -1,0 +1,177 @@
+{
+  "_meta": {
+    "type": "brand-film",
+    "target_duration": 60,
+    "style": "editorial-luxury",
+    "description": "60-second horizontal brand film. Two-act narrative structure with atmosphere bookends. Slow, confident editorial pacing — cuts every 4–6s. Music enters on Act 1 transition. For screenings, presentations, and YouTube.",
+    "sections": [
+      {"name": "Atmosphere",    "start": 0,  "duration": 5,  "notes": "Silent open. Room tone or ambient only — no music yet. Establishes world and tone. Single or two very slow cuts."},
+      {"name": "Chapter-1",     "start": 5,  "duration": 20, "notes": "Act 1 — The world or the people. Documentary or observational register. 3–4 shots. No music pressure yet."},
+      {"name": "Music entry",   "start": 25, "duration": 5,  "notes": "Music enters here — fade in over 2s. Pivotal moment: a look, a gesture, a product close. The film lifts."},
+      {"name": "Chapter-2",     "start": 30, "duration": 20, "notes": "Act 2 — The craft, the vision, the brand belief. More dynamic rhythm. Music fully established."},
+      {"name": "Statement",     "start": 50, "duration": 7,  "notes": "Brand statement or manifesto line on screen. Minimal clip motion. Music reaches emotional peak or quiet resolve."},
+      {"name": "End card",      "start": 57, "duration": 3,  "notes": "Logo on black. Music fades on last beat. 1s silence before true end."}
+    ]
+  },
+
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 16,
+    "audio_codec": "aac",
+    "audio_bitrate": "320k"
+  },
+
+  "clips": [
+    {
+      "_section": "Atmosphere",
+      "src": "PLACEHOLDER:atmosphere-establishing-environment",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "audio_gain": -60,
+      "notes": "Muted — room tone or near-silence only. Slow pan or completely still. Sets place and time."
+    },
+    {
+      "_section": "Chapter-1",
+      "src": "PLACEHOLDER:chapter1-people-or-place-wide",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Wide shot. The world the brand inhabits. Observational."
+    },
+    {
+      "_section": "Chapter-1",
+      "src": "PLACEHOLDER:chapter1-craft-or-process",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Craft, process, or making — hands at work or material being transformed."
+    },
+    {
+      "_section": "Chapter-1",
+      "src": "PLACEHOLDER:chapter1-human-portrait",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "A face or figure — the human heart of the brand. Natural light preferred."
+    },
+    {
+      "_section": "Chapter-1",
+      "src": "PLACEHOLDER:chapter1-detail-or-texture",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Intimate detail shot. Surfaces, materials, the physical reality of the brand."
+    },
+    {
+      "_section": "Music entry",
+      "src": "PLACEHOLDER:music-entry-pivot-moment",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "The pivot moment — a look to camera, a product placed, a door opened. Music fades in here over 2s."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-brand-vision-wide",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Act 2 opens on a wider, grander frame. The brand's aspiration made visible."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-product-hero",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Product hero shot. Elegant, deliberate. The object the brand makes."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-human-brand-together",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Person and product in harmony. The brand belief embodied."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-emotional-close",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Emotional close — expression, gesture, or detail that carries feeling."
+    },
+    {
+      "_section": "Statement",
+      "src": "PLACEHOLDER:statement-minimal-visual",
+      "in": 0.0,
+      "out": 7.0,
+      "fit": "crop",
+      "notes": "Very slow or still clip. The brand statement will overlay this. Neutral tones preferred."
+    },
+    {
+      "_section": "End card",
+      "src": "PLACEHOLDER:end-card-black-or-dark",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "Pure black or deep brand color. Logo appears here. Music fades."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.4
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -10,
+    "duck": true,
+    "duck_level": -24,
+    "fade_in": 2.0,
+    "fade_in_start": 25.0,
+    "fade_out": 2.0,
+    "notes": "Music enters at second 25 (Music entry section). Fade in over 2s. Duck under any VO. Fade out over end card."
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Statement",
+      "text": "PLACEHOLDER: Brand statement or manifesto line",
+      "start": 50.5,
+      "duration": 6.0,
+      "pos": "middle",
+      "size": 64,
+      "font": "DM Serif Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 2,
+      "animation": "fade"
+    },
+    {
+      "_section": "End card",
+      "text": "PLACEHOLDER: BRAND NAME",
+      "start": 57.5,
+      "duration": 2.0,
+      "pos": "middle",
+      "size": 72,
+      "font": "Playfair Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 16,
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": "generate",
+  "loudness_lufs": -14
+}

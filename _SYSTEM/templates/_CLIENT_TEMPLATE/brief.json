@@ -1,0 +1,15 @@
+{
+  "_instructions": "Fill ALL fields. Delete this key before use. Save as brief.json in the project root.",
+  "client": "",
+  "project": "",
+  "type": "talking-head | product | brand-film | fashion | before-after",
+  "aspect": "9:16 | 16:9 | 1:1",
+  "duration_s": 30,
+  "platforms": ["instagram-reel"],
+  "style": "editorial | social | luxury",
+  "speaker": { "name": "", "role": "" },
+  "music": "provided | none",
+  "subtitles": { "language": "es", "style": "editorial" },
+  "brand": { "accent_color": "", "logo": "IN/assets/logo.png" },
+  "notes": ""
+}

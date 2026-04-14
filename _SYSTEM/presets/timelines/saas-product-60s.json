@@ -1,0 +1,228 @@
+{
+  "_meta": {
+    "type": "saas-product",
+    "target_duration": 60,
+    "style": "fast-cut",
+    "description": "60-second SaaS product ad. More room for three distinct features and a testimonial before the CTA. Vertical format for social placement.",
+    "sections": [
+      {"name": "Hook",        "start": 0,  "duration": 3,  "notes": "Grab attention immediately. Bold visual or provocative question."},
+      {"name": "Problem",     "start": 3,  "duration": 9,  "notes": "Build empathy — show the pain in 2–3 cuts. Let it breathe slightly longer than the 30s version."},
+      {"name": "Feature-1",   "start": 12, "duration": 9,  "notes": "First core feature: show the action AND the outcome. Screen recording preferred."},
+      {"name": "Feature-2",   "start": 21, "duration": 9,  "notes": "Second core feature. Different camera angle or UI area to maintain visual variety."},
+      {"name": "Feature-3",   "start": 30, "duration": 10, "notes": "Third core feature or a 'bonus' workflow. Can be slightly longer if it's the hero moment."},
+      {"name": "Testimonial", "start": 40, "duration": 12, "notes": "Real customer talking head or pull-quote card. Keep it authentic — no corporate stiffness."},
+      {"name": "CTA",         "start": 52, "duration": 8,  "notes": "Brand + action line + URL. Hold brand frame for at least 2s before fade."}
+    ]
+  },
+
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 18,
+    "audio_codec": "aac",
+    "audio_bitrate": "192k"
+  },
+
+  "clips": [
+    {
+      "_section": "Hook",
+      "src": "PLACEHOLDER:hook-opener",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "High-energy open. Face, stat, or product in action."
+    },
+    {
+      "_section": "Problem",
+      "src": "PLACEHOLDER:problem-scene-1",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "First friction point. Show, don't tell."
+    },
+    {
+      "_section": "Problem",
+      "src": "PLACEHOLDER:problem-scene-2",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "Second friction point. Can overlap with VO explaining the problem."
+    },
+    {
+      "_section": "Problem",
+      "src": "PLACEHOLDER:problem-scene-3",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "Resolution setup — the moment the user discovers the solution."
+    },
+    {
+      "_section": "Feature-1",
+      "src": "PLACEHOLDER:feature-1-action",
+      "in": 0.0,
+      "out": 4.5,
+      "fit": "crop",
+      "notes": "Feature 1 in use. Capture the interaction itself."
+    },
+    {
+      "_section": "Feature-1",
+      "src": "PLACEHOLDER:feature-1-result",
+      "in": 0.0,
+      "out": 4.5,
+      "fit": "crop",
+      "notes": "Feature 1 payoff. Show the result state on screen."
+    },
+    {
+      "_section": "Feature-2",
+      "src": "PLACEHOLDER:feature-2-action",
+      "in": 0.0,
+      "out": 4.5,
+      "fit": "crop",
+      "notes": "Feature 2 interaction."
+    },
+    {
+      "_section": "Feature-2",
+      "src": "PLACEHOLDER:feature-2-result",
+      "in": 0.0,
+      "out": 4.5,
+      "fit": "crop",
+      "notes": "Feature 2 result."
+    },
+    {
+      "_section": "Feature-3",
+      "src": "PLACEHOLDER:feature-3-hero-action",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Hero feature — the most impressive moment. Give it a beat more time."
+    },
+    {
+      "_section": "Feature-3",
+      "src": "PLACEHOLDER:feature-3-hero-result",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Hero feature result. Let the 'wow' land."
+    },
+    {
+      "_section": "Testimonial",
+      "src": "PLACEHOLDER:testimonial-talking-head",
+      "in": 0.0,
+      "out": 7.0,
+      "fit": "crop",
+      "notes": "Customer talking head. Trim to the core quote — 6–8 seconds max."
+    },
+    {
+      "_section": "Testimonial",
+      "src": "PLACEHOLDER:testimonial-b-roll-or-metric",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Supporting visual: logo, metric card, or b-roll of customer using product."
+    },
+    {
+      "_section": "CTA",
+      "src": "PLACEHOLDER:cta-product-shot",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Clean product visual or brand lockup."
+    },
+    {
+      "_section": "CTA",
+      "src": "PLACEHOLDER:cta-end-card",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Final frame with URL and action line. Hold 2s minimum."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.2
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -14,
+    "duck": true,
+    "duck_level": -22,
+    "fade_in": 0.5,
+    "fade_out": 1.5
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Hook",
+      "text": "PLACEHOLDER: Hook stat or question",
+      "start": 0.4,
+      "duration": 2.2,
+      "pos": "middle",
+      "size": 72,
+      "font": "Inter",
+      "weight": "Bold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000088",
+      "animation": "fade"
+    },
+    {
+      "_section": "Feature-1",
+      "text": "PLACEHOLDER: Feature 1 label",
+      "start": 12.4,
+      "duration": 2.0,
+      "pos": "top",
+      "size": 44,
+      "font": "Inter",
+      "weight": "SemiBold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000066",
+      "animation": "fade"
+    },
+    {
+      "_section": "Feature-2",
+      "text": "PLACEHOLDER: Feature 2 label",
+      "start": 21.4,
+      "duration": 2.0,
+      "pos": "top",
+      "size": 44,
+      "font": "Inter",
+      "weight": "SemiBold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000066",
+      "animation": "fade"
+    },
+    {
+      "_section": "Feature-3",
+      "text": "PLACEHOLDER: Feature 3 label",
+      "start": 30.4,
+      "duration": 2.0,
+      "pos": "top",
+      "size": 44,
+      "font": "Inter",
+      "weight": "SemiBold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000066",
+      "animation": "fade"
+    },
+    {
+      "_section": "CTA",
+      "text": "PLACEHOLDER: Start free → product.com",
+      "start": 52.4,
+      "duration": 6.2,
+      "pos": "bottom",
+      "size": 56,
+      "font": "Inter",
+      "weight": "Bold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000088",
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": "generate",
+  "loudness_lufs": -14
+}

@@ -1,0 +1,57 @@
+# ═══════════════════════════════════════════════
+# BMP Video Production — Git Ignore
+# ═══════════════════════════════════════════════
+# Solo se sube el SISTEMA (scripts, templates, config, Remotion, docs).
+# Los proyectos de clientes, footage y archivos pesados se quedan locales.
+
+# ── Proyectos de clientes (privados + pesados) ──
+CLIENTS/
+00_INBOX/
+_DELIVERABLES/
+
+# ── Assets pesados del estudio ──
+_ASSETS/music/
+_ASSETS/stock/
+_ASSETS/sfx/
+
+# ── Dependencias (se instalan localmente) ──
+_SYSTEM/.venv/
+_SYSTEM/motion/bmp-motion/node_modules/
+_SYSTEM/motion/bmp-motion/.remotion/
+
+# ── Archivos de sistema ──
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── Archivos temporales de edición ──
+*.mp4
+*.mov
+*.MOV
+*.m4a
+*.wav
+*.aac
+*.mp3
+
+# ── EXCEPCIONES: archivos que SÍ se suben aunque coincidan ──
+# (los scripts .sh y .py sí se suben, los presets JSON sí, etc.)
+!_SYSTEM/scripts/**
+!_SYSTEM/presets/**
+!_SYSTEM/config/**
+!_SYSTEM/templates/**
+!_SYSTEM/tools/**
+!_SYSTEM/motion/bmp-motion/src/**
+!_SYSTEM/motion/bmp-motion/package.json
+!_SYSTEM/motion/bmp-motion/package-lock.json
+!_SYSTEM/motion/bmp-motion/tsconfig.json
+!_SYSTEM/motion/bmp-motion/remotion.config.ts
+!_SYSTEM/*.md
+!_ASSETS/logos/*.png
+!_ASSETS/logos/*.svg
+
+# ── Assets de Remotion public/ (específicos de cliente) ──
+_SYSTEM/motion/bmp-motion/public/livitum*
+_SYSTEM/motion/bmp-motion/public/livitum/

@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "type": "fashion-lifestyle",
+    "target_duration": 30,
+    "style": "editorial-luxury",
+    "description": "30-second fashion/lifestyle ad driven entirely by music. Visual-only rhythm — no dialogue, no supers. Cuts land on phrase endings, not every beat. Slow, confident luxury pacing.",
+    "sections": [
+      {"name": "Cold open",      "start": 0,  "duration": 2,  "notes": "Single strong frame. No music intro cut — let it play under. Silence or room tone if music has an intro."},
+      {"name": "Brand reveal",   "start": 2,  "duration": 4,  "notes": "Brand name or campaign identity appears. Either a title card or a product hero shot. Crossfade from cold open."},
+      {"name": "Editorial cuts", "start": 6,  "duration": 18, "notes": "4–5 editorial shots. Mix wide, medium, detail. Cuts every 3–4s on musical phrase ends. No talking, no text."},
+      {"name": "Campaign line",  "start": 24, "duration": 4,  "notes": "Campaign tagline or season identifier appears over a still or slow clip."},
+      {"name": "Logo sting",     "start": 28, "duration": 2,  "notes": "Brand logo on black or brand color. Music fades on last beat. Hold 1s after music ends."}
+    ]
+  },
+
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 16,
+    "audio_codec": "aac",
+    "audio_bitrate": "256k"
+  },
+
+  "clips": [
+    {
+      "_section": "Cold open",
+      "src": "PLACEHOLDER:cold-open-hero-frame",
+      "in": 0.0,
+      "out": 2.0,
+      "fit": "crop",
+      "notes": "Single strong image. Fashion close-up, texture, or atmospheric establishing shot. No motion preferred."
+    },
+    {
+      "_section": "Brand reveal",
+      "src": "PLACEHOLDER:brand-reveal-product-hero",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Hero product or brand identity shot. Clean background, deliberate lighting."
+    },
+    {
+      "_section": "Editorial cuts",
+      "src": "PLACEHOLDER:editorial-wide-establishing",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Wide establishing shot — location, set, or environment context."
+    },
+    {
+      "_section": "Editorial cuts",
+      "src": "PLACEHOLDER:editorial-model-medium",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Medium shot of model or subject. Movement should feel intentional."
+    },
+    {
+      "_section": "Editorial cuts",
+      "src": "PLACEHOLDER:editorial-product-detail-1",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Tight detail: fabric texture, clasp, label, or surface. Macro or very close."
+    },
+    {
+      "_section": "Editorial cuts",
+      "src": "PLACEHOLDER:editorial-model-action",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Model in motion — walking, turning, gesture. Capture the movement mid-phrase."
+    },
+    {
+      "_section": "Editorial cuts",
+      "src": "PLACEHOLDER:editorial-product-detail-2",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Second product detail or atmospheric texture. Slightly longer — the editorial finale before the campaign line."
+    },
+    {
+      "_section": "Campaign line",
+      "src": "PLACEHOLDER:campaign-still-or-slow-clip",
+      "in": 0.0,
+      "out": 4.0,
+      "fit": "crop",
+      "notes": "Clean visual to hold the campaign tagline. Low motion — the text is the hero here."
+    },
+    {
+      "_section": "Logo sting",
+      "src": "PLACEHOLDER:logo-sting-black-or-brand-bg",
+      "in": 0.0,
+      "out": 2.0,
+      "fit": "crop",
+      "notes": "Brand logo on solid background. Can be a generated still — black #0A0A0A or brand color."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.3
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -6,
+    "duck": false,
+    "fade_in": 0.0,
+    "fade_out": 1.5,
+    "notes": "Music is primary. Do not duck. Trim track to start on the downbeat closest to 0s."
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Brand reveal",
+      "text": "PLACEHOLDER: BRAND NAME",
+      "start": 2.5,
+      "duration": 3.0,
+      "pos": "middle",
+      "size": 88,
+      "font": "Playfair Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 12,
+      "animation": "fade"
+    },
+    {
+      "_section": "Campaign line",
+      "text": "PLACEHOLDER: Campaign tagline",
+      "start": 24.4,
+      "duration": 3.0,
+      "pos": "middle",
+      "size": 52,
+      "font": "Playfair Display",
+      "weight": "Italic",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 4,
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": null,
+  "loudness_lufs": -14
+}

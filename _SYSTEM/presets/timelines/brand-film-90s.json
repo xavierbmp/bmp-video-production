@@ -1,0 +1,247 @@
+{
+  "_meta": {
+    "type": "brand-film",
+    "target_duration": 90,
+    "style": "editorial-luxury",
+    "description": "90-second horizontal brand film. Three-act structure with titled chapters. Room for a deep emotional arc: world-building → craft/belief → emotional peak → brand resolution. Prestige format for campaigns, festivals, and brand channels.",
+    "sections": [
+      {"name": "Atmosphere",       "start": 0,  "duration": 5,  "notes": "Silent open — room tone or ambient only. Establishes world and tone with 1–2 unhurried frames."},
+      {"name": "Chapter-1-title",  "start": 5,  "duration": 10, "notes": "Optional chapter title on screen (e.g. 'I. The Making'). 2 atmospheric shots. Music begins quietly if relevant."},
+      {"name": "Act-1",            "start": 15, "duration": 20, "notes": "The world and the people. Observational documentary register. 4 shots at 5s each. Build familiarity."},
+      {"name": "Music entry",      "start": 35, "duration": 5,  "notes": "Pivot moment — a look, an action, a discovery. Music swells or enters fully. The film changes register here."},
+      {"name": "Chapter-2",        "start": 40, "duration": 20, "notes": "The craft, vision, or product. More dynamic. Music fully established. 4 shots."},
+      {"name": "Emotional peak",   "start": 60, "duration": 15, "notes": "The film's most emotional moment. Slowest cuts. Music at its most expressive. 2–3 shots of maximum 7s each."},
+      {"name": "Brand statement",  "start": 75, "duration": 10, "notes": "Manifesto or brand belief statement on screen. Near-still clip. Music resolves — a quiet cadence."},
+      {"name": "End card",         "start": 85, "duration": 5,  "notes": "Logo + URL on black. 2s of silence after music ends. True ending."}
+    ]
+  },
+
+  "output": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 16,
+    "audio_codec": "aac",
+    "audio_bitrate": "320k"
+  },
+
+  "clips": [
+    {
+      "_section": "Atmosphere",
+      "src": "PLACEHOLDER:atmosphere-world-establishing",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "audio_gain": -60,
+      "notes": "Near-silent. Room tone only. One powerful frame — place, texture, or light."
+    },
+    {
+      "_section": "Chapter-1-title",
+      "src": "PLACEHOLDER:chapter1-title-atmospheric-clip",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Atmospheric support for the chapter title card. Slow drift or completely still."
+    },
+    {
+      "_section": "Chapter-1-title",
+      "src": "PLACEHOLDER:chapter1-title-second-frame",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Second frame in the opening chapter. Environment or material detail."
+    },
+    {
+      "_section": "Act-1",
+      "src": "PLACEHOLDER:act1-people-wide-observational",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Wide observational shot. The humans in the brand's world."
+    },
+    {
+      "_section": "Act-1",
+      "src": "PLACEHOLDER:act1-process-hands-at-work",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Craft or process — hands, tools, materials being shaped."
+    },
+    {
+      "_section": "Act-1",
+      "src": "PLACEHOLDER:act1-portrait-natural-light",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Portrait. The face of the brand — maker, founder, or muse. Natural light."
+    },
+    {
+      "_section": "Act-1",
+      "src": "PLACEHOLDER:act1-material-or-environment-detail",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Intimate environmental detail. Textures, surfaces, the physical world of the brand."
+    },
+    {
+      "_section": "Music entry",
+      "src": "PLACEHOLDER:music-entry-decisive-moment",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "The decisive moment. Music swells or enters here. A look to camera, a product appears, a door opens."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-brand-vision-hero",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Brand's largest vision — aspirational wide shot. The 'why' made visible."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-product-crafted-beauty",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "The product as an object of beauty. Studio or environmental hero shot."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-community-or-shared-moment",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "People sharing the brand experience. Connection and belonging."
+    },
+    {
+      "_section": "Chapter-2",
+      "src": "PLACEHOLDER:chapter2-signature-craft-detail",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "The defining detail that only this brand makes. Craft signature."
+    },
+    {
+      "_section": "Emotional peak",
+      "src": "PLACEHOLDER:emotional-peak-primary",
+      "in": 0.0,
+      "out": 7.0,
+      "fit": "crop",
+      "notes": "The most emotionally resonant image in the entire film. Slow. Let it breathe."
+    },
+    {
+      "_section": "Emotional peak",
+      "src": "PLACEHOLDER:emotional-peak-human-connection",
+      "in": 0.0,
+      "out": 7.0,
+      "fit": "crop",
+      "notes": "Human connection moment. A gesture, a smile, a look — whatever carries the most feeling."
+    },
+    {
+      "_section": "Emotional peak",
+      "src": "PLACEHOLDER:emotional-peak-resolution-frame",
+      "in": 0.0,
+      "out": 6.0,
+      "fit": "crop",
+      "notes": "Resolution frame — a sense of arrival or peace. Leads into the brand statement."
+    },
+    {
+      "_section": "Brand statement",
+      "src": "PLACEHOLDER:brand-statement-minimal-clip",
+      "in": 0.0,
+      "out": 10.0,
+      "fit": "crop",
+      "notes": "Near-still or very slow. The manifesto text is the hero. Neutral, calm tones."
+    },
+    {
+      "_section": "End card",
+      "src": "PLACEHOLDER:end-card-dark-bg",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Black or deep brand color. Logo and URL. Music fades to silence."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.4
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -10,
+    "duck": true,
+    "duck_level": -24,
+    "fade_in": 2.0,
+    "fade_in_start": 35.0,
+    "fade_out": 2.5,
+    "notes": "Music enters at second 35 (Music entry section) with 2s fade-in. Reaches peak during Emotional peak section. Resolves quietly under Brand statement. Silent before end card ends."
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Chapter-1-title",
+      "text": "PLACEHOLDER: I. Chapter One Title",
+      "start": 5.5,
+      "duration": 4.0,
+      "pos": "bottom-left",
+      "size": 42,
+      "font": "DM Serif Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 4,
+      "animation": "fade"
+    },
+    {
+      "_section": "Brand statement",
+      "text": "PLACEHOLDER: Brand manifesto or belief statement",
+      "start": 75.5,
+      "duration": 9.0,
+      "pos": "middle",
+      "size": 60,
+      "font": "DM Serif Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 2,
+      "animation": "fade"
+    },
+    {
+      "_section": "End card",
+      "text": "PLACEHOLDER: BRAND NAME",
+      "start": 85.5,
+      "duration": 3.5,
+      "pos": "middle",
+      "size": 72,
+      "font": "Playfair Display",
+      "weight": "Regular",
+      "color": "#FFFFFF",
+      "bg_color": null,
+      "letter_spacing": 16,
+      "animation": "fade"
+    },
+    {
+      "_section": "End card",
+      "text": "PLACEHOLDER: www.brand.com",
+      "start": 86.0,
+      "duration": 3.0,
+      "pos": "bottom",
+      "size": 32,
+      "font": "Inter",
+      "weight": "Light",
+      "color": "#CCCCCC",
+      "bg_color": null,
+      "letter_spacing": 4,
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": "generate",
+  "loudness_lufs": -14
+}

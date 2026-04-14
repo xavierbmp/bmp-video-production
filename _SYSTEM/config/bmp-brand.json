@@ -1,0 +1,37 @@
+{
+  "studio": {
+    "name": "BMP",
+    "tagline": "AI content for fashion, beauty & luxury",
+    "city": "Barcelona",
+    "website": "",
+    "instagram": ""
+  },
+  "brand": {
+    "primary_color": "#0A0A0A",
+    "secondary_color": "#F2F0EB",
+    "accent_color": "#C6A35D",
+    "fonts": {
+      "display": "DM Serif Display",
+      "body": "Inter",
+      "luxury": "Playfair Display",
+      "editorial": "Libre Baskerville"
+    }
+  },
+  "delivery_defaults": {
+    "loudness_lufs": -14,
+    "color_space": "rec709",
+    "container": "mp4",
+    "watermark_path": "_ASSETS/logos/bmp-watermark.png",
+    "watermark_position": "br",
+    "watermark_opacity": 0.85
+  },
+  "platforms": [
+    "instagram-reel",
+    "instagram-story",
+    "instagram-feed",
+    "tiktok",
+    "youtube",
+    "youtube-shorts",
+    "linkedin"
+  ]
+}

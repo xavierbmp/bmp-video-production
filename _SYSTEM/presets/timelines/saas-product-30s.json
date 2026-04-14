@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "type": "saas-product",
+    "target_duration": 30,
+    "style": "fast-cut",
+    "description": "30-second SaaS product ad. Hook with a bold stat, problem setup, product demo, social proof, CTA. Fast-cut rhythm optimised for vertical social.",
+    "sections": [
+      {"name": "Hook",    "start": 0,  "duration": 3,  "notes": "Open on the pain point or a bold number. No title yet — let the visual land first."},
+      {"name": "Problem", "start": 3,  "duration": 5,  "notes": "Show the before-state: friction, wasted time, confusion. Keep cuts tight."},
+      {"name": "Demo",    "start": 8,  "duration": 14, "notes": "Screen recording or product walkthrough. 3–4 cuts showing the core flow. Add UI captions if helpful."},
+      {"name": "Proof",   "start": 22, "duration": 5,  "notes": "Testimonial quote, logo wall, or metric. One clean cut."},
+      {"name": "CTA",     "start": 27, "duration": 3,  "notes": "Brand name + action line. Hold last frame 1s before fade."}
+    ]
+  },
+
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "libx264",
+    "crf": 18,
+    "audio_codec": "aac",
+    "audio_bitrate": "192k"
+  },
+
+  "clips": [
+    {
+      "_section": "Hook",
+      "src": "PLACEHOLDER:hook-bold-visual",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "Punchy opener — a face, a number on screen, or a product close-up. No slow pans."
+    },
+    {
+      "_section": "Problem",
+      "src": "PLACEHOLDER:problem-frustration-1",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Show the friction: messy spreadsheet, failed search, error state."
+    },
+    {
+      "_section": "Problem",
+      "src": "PLACEHOLDER:problem-frustration-2",
+      "in": 0.0,
+      "out": 2.5,
+      "fit": "crop",
+      "notes": "Second beat of the problem. Can be a talking-head reacting to pain point."
+    },
+    {
+      "_section": "Demo",
+      "src": "PLACEHOLDER:demo-screen-overview",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Wide view of the product UI. Establish the interface before drilling in."
+    },
+    {
+      "_section": "Demo",
+      "src": "PLACEHOLDER:demo-key-feature-1",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "First core feature interaction. Screen recording preferred."
+    },
+    {
+      "_section": "Demo",
+      "src": "PLACEHOLDER:demo-key-feature-2",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "Second core feature. Show the result, not just the click."
+    },
+    {
+      "_section": "Demo",
+      "src": "PLACEHOLDER:demo-result-payoff",
+      "in": 0.0,
+      "out": 3.5,
+      "fit": "crop",
+      "notes": "The aha moment — dashboard lit up, task complete, time saved."
+    },
+    {
+      "_section": "Proof",
+      "src": "PLACEHOLDER:social-proof-metric-or-quote",
+      "in": 0.0,
+      "out": 5.0,
+      "fit": "crop",
+      "notes": "Testimonial clip, metric card, or logo wall. Keep it credible and brief."
+    },
+    {
+      "_section": "CTA",
+      "src": "PLACEHOLDER:cta-brand-lockup",
+      "in": 0.0,
+      "out": 3.0,
+      "fit": "crop",
+      "notes": "Brand visual with product name and action line. End on a clean still."
+    }
+  ],
+
+  "transitions": {
+    "type": "crossfade",
+    "duration": 0.2
+  },
+
+  "music": {
+    "src": "PLACEHOLDER:music-track",
+    "db": -14,
+    "duck": true,
+    "duck_level": -20,
+    "fade_in": 0.5,
+    "fade_out": 1.0
+  },
+
+  "text_overlays": [
+    {
+      "_section": "Hook",
+      "text": "PLACEHOLDER: Hook stat or question",
+      "start": 0.4,
+      "duration": 2.2,
+      "pos": "middle",
+      "size": 72,
+      "font": "Inter",
+      "weight": "Bold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000088",
+      "animation": "fade"
+    },
+    {
+      "_section": "CTA",
+      "text": "PLACEHOLDER: Try free → product.com",
+      "start": 27.4,
+      "duration": 2.2,
+      "pos": "bottom",
+      "size": 56,
+      "font": "Inter",
+      "weight": "Bold",
+      "color": "#FFFFFF",
+      "bg_color": "#00000088",
+      "animation": "fade"
+    }
+  ],
+
+  "watermark": null,
+  "subtitles": "generate",
+  "loudness_lufs": -14
+}

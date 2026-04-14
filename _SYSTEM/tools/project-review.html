@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMP — Project Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0A0A; --card: #141414; --card-hover: #1A1A1A;
+      --border: #282828; --input-bg: #1A1A1A;
+      --text: #FFFFFF; --muted: #999999;
+      --accent: #C6A35D; --accent-dk: #A8863D;
+      --green: #5DAF6A; --orange: #D4923A; --danger: #C65D5D;
+      --radius: 8px; --radius-lg: 12px; --gap: 20px;
+    }
+    html { font-size: 15px; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-weight: 400; line-height: 1.6; min-height: 100vh; }
+
+    .site-header { border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 100; }
+    .logo { font-size: 18px; font-weight: 600; letter-spacing: 6px; color: var(--accent); }
+    .header-info { display: flex; align-items: center; gap: 16px; }
+    .project-name { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); }
+    .version-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: 1px; }
+    .autosave { font-size: 11px; color: var(--muted); }
+    .autosave.ok { color: var(--green); }
+
+    .stepper { display: flex; align-items: center; justify-content: center; padding: 20px 32px; border-bottom: 1px solid var(--border); gap: 0; background: var(--bg); position: sticky; top: 53px; z-index: 99; }
+    .step { display: flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); transition: all 0.2s; user-select: none; }
+    .step:hover { color: var(--text); background: var(--card); }
+    .step.active { color: var(--accent); background: #1E1A12; }
+    .step .num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1.5px solid var(--border); color: var(--muted); }
+    .step.active .num { border-color: var(--accent); color: var(--accent); }
+    .step.done .num { border-color: var(--green); color: var(--green); background: #0F1A0F; }
+    .step-line { width: 32px; height: 1px; background: var(--border); }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 32px 24px 100px; }
+    .phase-panel { display: none; }
+    .phase-panel.active { display: block; }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: var(--gap); }
+    .card-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.5px; }
+    textarea, input[type="text"] { width: 100%; padding: 12px 14px; background: var(--input-bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: inherit; font-size: 14px; line-height: 1.5; resize: vertical; outline: none; }
+    textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
+    textarea { min-height: 80px; }
+
+    .status-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .status-pill { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid var(--border); color: var(--muted); background: transparent; transition: all 0.15s; user-select: none; }
+    .status-pill:hover { border-color: var(--text); color: var(--text); }
+    .status-pill.sel-ok { border-color: var(--green); color: var(--green); background: #0F1A0F; }
+    .status-pill.sel-ch { border-color: var(--orange); color: var(--orange); background: #1A170F; }
+    .status-pill.sel-no { border-color: var(--danger); color: var(--danger); background: #1A0F0F; }
+
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: var(--radius); font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: 1.5px solid transparent; transition: all 0.15s; }
+    .btn-primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-dk); }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-ghost:hover { border-color: var(--text); }
+    .btn-success { background: var(--green); color: var(--bg); border-color: var(--green); }
+    .actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
+    .empty-state { text-align: center; padding: 80px 40px; border: 2px dashed var(--border); border-radius: var(--radius-lg); color: var(--muted); }
+    .empty-state h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text); margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; margin-bottom: 24px; }
+    .drop-zone { padding: 40px; border: 2px dashed var(--border); border-radius: var(--radius-lg); text-align: center; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); color: var(--accent); }
+
+    .clip-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .clip-card { display: grid; grid-template-columns: 140px 1fr; gap: 20px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; transition: border-color 0.15s; }
+    .clip-card:hover { border-color: #444; }
+    .clip-card.s-ok { border-left: 3px solid var(--green); }
+    .clip-card.s-ch { border-left: 3px solid var(--orange); }
+    .clip-card.s-no { border-left: 3px solid var(--danger); }
+
+    .clip-thumb { width: 140px; height: 80px; border-radius: 6px; overflow: hidden; background: #1A1A1A; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 24px; }
+    .clip-info { display: flex; flex-direction: column; gap: 8px; }
+    .clip-header { display: flex; align-items: baseline; gap: 10px; }
+    .clip-num { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .clip-label { font-size: 14px; font-weight: 500; color: var(--text); }
+    .clip-meta { font-size: 12px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .timeline-bar { display: flex; width: 100%; height: 48px; border-radius: 6px; overflow: hidden; margin-bottom: 24px; background: var(--card); border: 1px solid var(--border); }
+    .tl-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.7); cursor: pointer; transition: opacity 0.15s; }
+    .tl-seg:hover { opacity: 0.8; }
+    .tl-seg.t-vid { background: #2A3A2A; }
+    .tl-seg.t-img { background: #2A2A3A; }
+    .tl-seg.t-end { background: #3A2A2A; }
+
+    .player-wrap { position: relative; width: 100%; max-width: 400px; margin: 0 auto 24px; border-radius: var(--radius-lg); overflow: hidden; background: #000; aspect-ratio: 9/16; }
+    .player-wrap video { width: 100%; height: 100%; object-fit: contain; }
+
+    .overall-card { background: #0F0F0F; border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: 32px; margin-top: 32px; }
+    .overall-card h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); margin-bottom: 20px; }
+
+    .section-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); margin-bottom: 8px; }
+    .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+    .bf { margin-bottom: 16px; }
+    .bf-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .bf-value { font-size: 14px; color: var(--text); }
+    .bf-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .bf-tag { font-size: 12px; padding: 4px 12px; border-radius: 20px; background: #1A1A1A; border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── Remotion preview ── */
+    .remotion-card { background: #0C0C0E; border: 1px solid #252530; border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; }
+    .remotion-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .remotion-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .remotion-title svg { flex-shrink: 0; }
+    .r-status { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+    .r-dot { width: 8px; height: 8px; border-radius: 50%; background: #444; flex-shrink: 0; transition: background 0.3s, box-shadow 0.3s; }
+    .r-dot.online  { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+    .r-dot.offline { background: var(--danger); }
+    .r-dot.checking { background: var(--accent); animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .remotion-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 0; }
+    .remotion-frame-wrap { display: none; margin-top: 16px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #111; }
+    .remotion-frame-wrap.open { display: block; }
+    .remotion-frame-wrap iframe { width: 100%; height: 620px; border: none; display: block; }
+    .r-composition { font-size: 11px; padding: 4px 12px; background: #1A1A2A; border: 1px solid #303050; border-radius: 20px; color: #9090D0; letter-spacing: 0.5px; }
+
+    @media (max-width: 768px) {
+      .stepper { flex-wrap: wrap; gap: 4px; }
+      .step-line { display: none; }
+      .clip-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="logo">BMP</div>
+      <div class="header-info">
+        <span class="project-name" id="headerProject">—</span>
+        <span class="version-badge" id="headerVersion">—</span>
+      </div>
+    </div>
+    <span class="autosave" id="autosaveStatus">No guardado</span>
+  </header>
+
+  <nav class="stepper" id="stepper">
+    <div class="step active" data-phase="brief" onclick="goPhase('brief')"><span class="num">1</span> Brief</div>
+    <div class="step-line"></div>
+    <div class="step" data-phase="material" onclick="goPhase('material')"><span class="num">2</span> Material</div>
+    <div class="step-line"></div>
+    <div class="step" data-phase="direction" onclick="goPhase('direction')"><span class="num">3</span> Dirección</div>
+    <div class="step-line"></div>
+    <div class="step" data-phase="timeline" onclick="goPhase('timeline')"><span class="num">4</span> Timeline</div>
+    <div class="step-line"></div>
+    <div class="step" data-phase="review" onclick="goPhase('review')"><span class="num">5</span> Review</div>
+  </nav>
+
+  <main class="page">
+    <div id="loadState" style="display:none;">
+      <div class="empty-state">
+        <h2>Project Review</h2>
+        <p>Carga un proyecto arrastrando un timeline.json o un review.json</p>
+        <div class="drop-zone" id="dropZone">
+          <p style="font-size:32px;margin-bottom:12px;">📁</p>
+          <p>Arrastra timeline.json aquí</p>
+          <p style="font-size:12px;margin-top:8px;">o haz click para seleccionar</p>
+          <input type="file" id="fileInput" accept=".json" style="display:none" />
+        </div>
+        <div class="actions" style="justify-content:center;margin-top:20px;">
+          <button class="btn btn-ghost" onclick="loadDemo()">Cargar demo (Livitum)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-panel" id="phase-brief">
+      <div class="section-title">Brief del proyecto</div>
+      <div class="section-sub">Rellena el brief o edita los datos cargados.</div>
+
+      <!-- Project Identity -->
+      <div class="card">
+        <div class="card-title">Identidad del proyecto</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field"><label>Cliente *</label><input type="text" id="bf-client" placeholder="Ej. Livitum" /></div>
+          <div class="field"><label>Proyecto *</label><input type="text" id="bf-project" placeholder="Ej. SS26Launch" /></div>
+        </div>
+      </div>
+
+      <!-- Video Type -->
+      <div class="card">
+        <div class="card-title">Tipo de video</div>
+        <div class="field">
+          <label>Formato</label>
+          <select id="bf-type">
+            <option value="saas">SaaS Product Ad</option>
+            <option value="fashion">Fashion / Lifestyle Ad</option>
+            <option value="brand">Brand Film</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label>Descripcion *</label>
+          <textarea id="bf-description" rows="4" placeholder="Describe el concepto, mensajes clave, mood, referencias..."></textarea>
+        </div>
+      </div>
+
+      <!-- Format -->
+      <div class="card">
+        <div class="card-title">Formato</div>
+        <div class="field">
+          <label>Aspect ratio</label>
+          <div class="status-group" id="bf-ratios">
+            <div class="status-pill" onclick="togglePill(this)" data-val="9:16">9:16 Vertical</div>
+            <div class="status-pill" onclick="togglePill(this)" data-val="16:9">16:9 Horizontal</div>
+            <div class="status-pill" onclick="togglePill(this)" data-val="1:1">1:1 Square</div>
+            <div class="status-pill" onclick="togglePill(this)" data-val="4:5">4:5 Portrait</div>
+          </div>
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label>Duracion objetivo</label>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <input type="range" id="bf-duration" min="15" max="120" step="5" value="30" style="flex:1;accent-color:var(--accent);" />
+            <span id="bf-dur-label" style="font-size:20px;font-weight:600;color:var(--text);min-width:56px;text-align:right;">30s</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platforms -->
+      <div class="card">
+        <div class="card-title">Plataformas</div>
+        <div class="status-group" id="bf-platforms">
+          <div class="status-pill" onclick="togglePill(this)" data-val="instagram-reel">IG Reel</div>
+          <div class="status-pill" onclick="togglePill(this)" data-val="instagram-story">IG Story</div>
+          <div class="status-pill" onclick="togglePill(this)" data-val="tiktok">TikTok</div>
+          <div class="status-pill" onclick="togglePill(this)" data-val="youtube">YouTube</div>
+          <div class="status-pill" onclick="togglePill(this)" data-val="youtube-shorts">YT Shorts</div>
+          <div class="status-pill" onclick="togglePill(this)" data-val="linkedin">LinkedIn</div>
+        </div>
+      </div>
+
+      <!-- Mood & References -->
+      <div class="card">
+        <div class="card-title">Mood y referencias</div>
+        <div class="field">
+          <label>Mood (3 keywords)</label>
+          <input type="text" id="bf-mood" placeholder="Ej. elegante, calido, confianza" />
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label>Links de referencia</label>
+          <textarea id="bf-refs" rows="3" placeholder="URLs de ads o videos de referencia (uno por linea)"></textarea>
+        </div>
+      </div>
+
+      <!-- Music -->
+      <div class="card">
+        <div class="card-title">Musica</div>
+        <div class="field">
+          <label>Fuente de musica</label>
+          <select id="bf-music-type">
+            <option value="provided">Yo proporciono el track</option>
+            <option value="none">Sin musica</option>
+            <option value="describe">Describir lo que quiero</option>
+            <option value="search">Buscar una</option>
+          </select>
+        </div>
+        <div class="field" id="bf-music-desc-wrap" style="margin-top:12px;display:none;">
+          <label>Descripcion de la musica</label>
+          <textarea id="bf-music-desc" rows="2" placeholder="Ej. Piano minimal, 80-90 BPM, cinematico..."></textarea>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="card">
+        <div class="card-title">Notas adicionales</div>
+        <div class="field">
+          <textarea id="bf-notes" rows="3" placeholder="Cualquier cosa adicional: restricciones, planos obligatorios, deadline, paleta de color, fuentes..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="saveBriefAndContinue()">Guardar brief y continuar</button>
+        <button class="btn btn-ghost" onclick="downloadBrief()">Descargar brief JSON</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('fileInput2').click()">Cargar proyecto existente</button>
+        <input type="file" id="fileInput2" accept=".json" style="display:none" />
+        <button class="btn btn-ghost" onclick="loadDemo()">Demo Livitum</button>
+      </div>
+    </div>
+
+    <div class="phase-panel" id="phase-material">
+      <div class="section-title">Material disponible</div>
+      <div class="section-sub">Clips, renders y assets del proyecto.</div>
+      <div class="clip-grid" id="materialGrid"></div>
+      <div class="actions">
+        <button class="btn btn-success" onclick="approveMaterial()">Material OK</button>
+        <button class="btn btn-ghost" onclick="goPhase('direction')">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="phase-panel" id="phase-direction">
+      <div class="section-title">Dirección creativa</div>
+      <div class="section-sub">Concepto, estructura, ritmo, overlays, música.</div>
+      <div class="card" id="directionContent"></div>
+      <div class="card">
+        <div class="card-title">Tu feedback</div>
+        <div class="field"><textarea id="directionNotes" placeholder="Cambios en el concepto, ritmo, overlays..."></textarea></div>
+        <div class="actions">
+          <button class="btn btn-success" onclick="approveDirection()">Aprobar dirección</button>
+          <button class="btn btn-ghost" onclick="goPhase('timeline')">Siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-panel" id="phase-timeline">
+      <div class="section-title">Timeline</div>
+      <div class="section-sub">Orden de clips, duraciones, transiciones.</div>
+      <div class="timeline-bar" id="timelineBar"></div>
+      <div class="clip-grid" id="timelineGrid"></div>
+      <div class="card">
+        <div class="card-title">Tu feedback sobre el timeline</div>
+        <div class="field"><textarea id="timelineNotes" placeholder="Cambios de orden, duraciones, clips a quitar/añadir..."></textarea></div>
+        <div class="actions">
+          <button class="btn btn-success" onclick="approveTimeline()">Aprobar timeline</button>
+          <button class="btn btn-ghost" onclick="goPhase('review')">Siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-panel" id="phase-review">
+      <div class="section-title">Review del render</div>
+      <div class="section-sub">Revisa el video completo y da feedback por clip.</div>
+
+      <!-- ── Remotion Studio Preview ── -->
+      <div class="remotion-card">
+        <div class="remotion-hd">
+          <div class="remotion-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C6A35D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Remotion Studio
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="r-composition" id="remotionCompo">PatriciaRuiz-Ad-V4</span>
+            <div class="r-status">
+              <div class="r-dot checking" id="remotionDot"></div>
+              <span id="remotionStatusText">Comprobando…</span>
+            </div>
+          </div>
+        </div>
+        <div class="remotion-actions">
+          <button class="btn btn-ghost" id="remotionToggleBtn" onclick="toggleRemotionFrame()">▶&nbsp; Ver en panel</button>
+          <button class="btn btn-ghost" onclick="openRemotionTab()">↗&nbsp; Nueva pestaña</button>
+          <button class="btn btn-ghost" onclick="checkRemotionStatus()" style="padding:10px 14px;" title="Refrescar estado">↻</button>
+        </div>
+        <div class="remotion-frame-wrap" id="remotionFrameWrap">
+          <iframe id="remotionFrame" src="" title="Remotion Studio" allow="autoplay"></iframe>
+        </div>
+        <div id="remotionOfflineMsg" style="display:none;margin-top:14px;font-size:13px;color:var(--muted);background:#1A0F0F;border:1px solid #3A1A1A;padding:12px 16px;border-radius:6px;line-height:1.7;">
+          Studio offline. Inícialo con:<br/>
+          <code style="font-size:12px;color:var(--accent);">cd _SYSTEM/motion/bmp-motion &amp;&amp; npm start</code>
+        </div>
+      </div>
+
+      <div class="player-wrap"><video id="mainPlayer" controls></video></div>
+      <div style="text-align:center;margin-bottom:32px;">
+        <button class="btn btn-ghost" onclick="document.getElementById('videoInput').click()">Cargar video renderizado</button>
+        <input type="file" id="videoInput" accept="video/*" style="display:none" />
+      </div>
+      <div class="card-title" style="margin-bottom:16px;">Review por clip</div>
+      <div class="clip-grid" id="reviewGrid"></div>
+      <div class="overall-card">
+        <h3>Feedback general</h3>
+        <div class="field"><textarea id="overallNotes" rows="4" placeholder="Feedback general sobre el video..."></textarea></div>
+        <div class="status-group" style="margin-bottom:20px;">
+          <div class="status-pill" onclick="setOverall('approved')" id="ov-ok">Aprobado</div>
+          <div class="status-pill" onclick="setOverall('iterate')" id="ov-it">Iterar</div>
+          <div class="status-pill" onclick="setOverall('rejected')" id="ov-no">Rechazado</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="exportReview()">Exportar review.json</button>
+          <button class="btn btn-ghost" onclick="copyReview()">Copiar al portapapeles</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // NOTE: This tool processes only trusted, locally-generated JSON from the BMP pipeline.
+    // All data is produced by Claude/ffmpeg scripts — no untrusted external input.
+
+    var state = {
+      project: null,
+      phase: 'brief',
+      phaseStatus: { brief: 'pending', material: 'pending', direction: 'pending', timeline: 'pending', review: 'pending' },
+      feedback: { brief: { status: 'pending', notes: '' }, direction: { status: 'pending', notes: '' }, timeline: { status: 'pending', notes: '' }, clips: [], overall: { status: 'pending', notes: '' } }
+    };
+    var STORAGE_KEY = 'bmp-review-draft';
+
+    // File handling
+    var dropZone = document.getElementById('dropZone');
+    var fileInput = document.getElementById('fileInput');
+    dropZone.addEventListener('click', function() { fileInput.click(); });
+    dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag-over'); });
+    dropZone.addEventListener('drop', function(e) { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]); });
+    fileInput.addEventListener('change', function(e) { if (e.target.files[0]) readFile(e.target.files[0]); });
+    document.getElementById('videoInput').addEventListener('change', function(e) { if (e.target.files[0]) { document.getElementById('mainPlayer').src = URL.createObjectURL(e.target.files[0]); } });
+
+    function readFile(file) {
+      var reader = new FileReader();
+      reader.onload = function(e) { try { loadProject(JSON.parse(e.target.result)); } catch (err) { alert('Error: ' + err.message); } };
+      reader.readAsText(file);
+    }
+
+    function loadProject(data) {
+      state.project = data;
+      if (data.clips) {
+        state.feedback.clips = data.clips.map(function(c, i) {
+          return { id: c._label || c.id || 'clip-' + i, index: i, src: c.src || '', status: 'pending', notes: '' };
+        });
+      }
+      document.getElementById('headerProject').textContent = (data._meta || {}).project || 'Proyecto';
+      document.getElementById('headerVersion').textContent = (data._meta || {}).version || 'v01';
+      // Update Remotion composition badge if specified in meta
+      if ((data._meta || {}).remotion_composition) {
+        REMOTION_COMPOSITION = data._meta.remotion_composition;
+        document.getElementById('remotionCompo').textContent = REMOTION_COMPOSITION;
+      }
+      document.getElementById('loadState').style.display = 'none';
+      renderAll();
+      goPhase('brief');
+      saveState();
+    }
+
+    function loadDemo() {
+      var demo = {
+        _meta: { project: 'Livitum x Patricia Ruiz \u2014 Paid Ad', type: 'paid-ad', format: '9:16 vertical', duration_target: '~25s', vo_order: 'frases 6\u21927\u21922\u21923\u21928\u21929', music: 'Business Technology Music by MUSIC4VIDEO', version: 'v03' },
+        output: { width: 1080, height: 1920, fps: 30 },
+        clips: [
+          { _label: 'Patricia hook \u2014 "cada cliente, te ayudar\u00e9..."', src: 'patricia-f6.mp4', type: 'video', dur: 2.0, fit: 'blur-bg' },
+          { _label: 'B-roll walkthrough sal\u00f3n Japandi', src: 'broll-walkthrough-new.mp4', type: 'video', dur: 1.5, fit: 'crop' },
+          { _label: 'Render sal\u00f3n Japandi (Ken Burns)', src: 'render-salon-japandi.jpg', type: 'image', dur: 1.2, fit: 'ken-burns-in' },
+          { _label: 'Patricia \u2014 "siempre has so\u00f1ado"', src: 'patricia-f7.mp4', type: 'video', dur: 1.2, fit: 'blur-bg' },
+          { _label: 'Render listones madera + espejo', src: 'render-listones.jpg', type: 'image', dur: 1.4, fit: 'ken-burns-out' },
+          { _label: 'Patricia \u2014 "Los estilos decorativos..."', src: 'patricia-f2.mp4', type: 'video', dur: 1.4, fit: 'blur-bg' },
+          { _label: 'B-roll cocina m\u00e1rmol', src: 'broll-kitchen-marble.mp4', type: 'video', dur: 1.4, fit: 'crop' },
+          { _label: 'Render sof\u00e1s + cuadros abstractos', src: 'render-sofa-cuadros.jpg', type: 'image', dur: 1.3, fit: 'ken-burns-in' },
+          { _label: 'B-roll walkthrough 2', src: 'broll-walkthrough2.mp4', type: 'video', dur: 1.3, fit: 'crop' },
+          { _label: 'Patricia \u2014 "texturas y materiales..."', src: 'patricia-f3.mp4', type: 'video', dur: 1.4, fit: 'blur-bg' },
+          { _label: 'Render fibras naturales', src: 'render-fibras.jpg', type: 'image', dur: 1.4, fit: 'ken-burns-out' },
+          { _label: 'Render butaca verde + listones', src: 'render-butaca-verde.jpg', type: 'image', dur: 1.2, fit: 'ken-burns-in' },
+          { _label: 'Web scroll Livitum', src: 'web-scroll.mp4', type: 'video', dur: 1.6, fit: 'crop' },
+          { _label: 'B-roll shaky comedor + tel\u00e9fono', src: 'broll-shaky-phone.mp4', type: 'video', dur: 1.4, fit: 'crop' },
+          { _label: 'Render comedor l\u00e1mparas rat\u00e1n', src: 'render-comedor-ratan.jpg', type: 'image', dur: 1.2, fit: 'ken-burns-out' },
+          { _label: 'Patricia CTA \u2014 "nos conozcamos..."', src: 'patricia-f8.mp4', type: 'video', dur: 2.2, fit: 'blur-bg' },
+          { _label: 'Patricia cierre \u2014 "Te espero"', src: 'patricia-f9.mp4', type: 'video', dur: 1.0, fit: 'blur-bg' },
+          { _label: 'End card \u2014 Logo Livitum + CTA', src: 'broll-walkthrough3.mp4', type: 'endcard', dur: 3.0, fit: 'dark-overlay' }
+        ],
+        transitions: { type: 'crossfade', duration: 0.25 },
+        music: { src: 'music.mp3', db: -16, duck: true, fade: 1.5 },
+        brief: { client: 'Livitum', type: 'Paid ad \u2014 Talking head + B-roll', format: '9:16 vertical \u00b7 1080x1920 \u00b7 30fps', duration: '~25s', platforms: ['Instagram Reels', 'TikTok', 'YouTube Shorts'], audio: 'VO Patricia + musica con ducking', style: 'Editorial / luxury para paid ads', subtitles: 'ES \u2014 estilo editorial', vo_selection: '6\u21927\u21922\u21923\u21928\u21929' },
+        creative_direction: 'Video ad de pago estilo editorial profesional. Patricia presenta su filosofia mientras vemos su trabajo.\n\nEstructura:\n- Hook (0-3s): Patricia a camara, lower third\n- Showcase (3-18s): Intercorte renders, Patricia, b-roll, web\n- CTA (18-25s): Patricia cierre + end card\n\nTransiciones: Solo crossfade 0.25s.\nTexto: Min 36pt. Overlays transparentes sobre video.\nMusica: -16dB, sidechain ducking.'
+      };
+      loadProject(demo);
+    }
+
+    function goPhase(phase) {
+      state.phase = phase;
+      var panels = document.querySelectorAll('.phase-panel');
+      for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+      document.getElementById('phase-' + phase).classList.add('active');
+      var steps = document.querySelectorAll('.step');
+      for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
+      document.querySelector('.step[data-phase="' + phase + '"]').classList.add('active');
+      var entries = Object.entries(state.phaseStatus);
+      for (var i = 0; i < entries.length; i++) {
+        var el = document.querySelector('.step[data-phase="' + entries[i][0] + '"]');
+        if (entries[i][1] === 'approved') el.classList.add('done'); else el.classList.remove('done');
+      }
+      if (phase === 'review') checkRemotionStatus();
+      saveState();
+    }
+
+    function renderAll() { renderBrief(); renderMaterial(); renderDirection(); renderTimeline(); renderReview(); }
+
+    function renderBrief() {
+      // Restore form fields from project data if available
+      if (state.project && state.project.brief) {
+        restoreBriefForm();
+      }
+    }
+
+    function renderMaterial() {
+      var cont = document.getElementById('materialGrid');
+      while (cont.firstChild) cont.removeChild(cont.firstChild);
+      var clips = ((state.project || {}).clips || []);
+      for (var i = 0; i < clips.length; i++) {
+        var c = clips[i];
+        var card = document.createElement('div'); card.className = 'clip-card';
+        var thumb = document.createElement('div'); thumb.className = 'clip-thumb';
+        var icon = c.type === 'image' ? '\uD83D\uDDBC' : c.type === 'endcard' ? '\uD83C\uDFC1' : '\uD83C\uDFAC';
+        thumb.textContent = icon;
+        var info = document.createElement('div'); info.className = 'clip-info';
+        var hdr = document.createElement('div'); hdr.className = 'clip-header';
+        var num = document.createElement('span'); num.className = 'clip-num'; num.textContent = '#' + (i + 1);
+        var lbl = document.createElement('span'); lbl.className = 'clip-label'; lbl.textContent = c._label || c.src;
+        hdr.appendChild(num); hdr.appendChild(lbl);
+        var meta = document.createElement('div'); meta.className = 'clip-meta';
+        meta.textContent = (c.type || 'video') + '  |  ' + (c.dur ? c.dur + 's' : '\u2014') + '  |  ' + (c.fit || 'crop') + '  |  ' + (c.src || '');
+        info.appendChild(hdr); info.appendChild(meta);
+        card.appendChild(thumb); card.appendChild(info);
+        cont.appendChild(card);
+      }
+    }
+
+    function renderDirection() {
+      var cont = document.getElementById('directionContent');
+      while (cont.firstChild) cont.removeChild(cont.firstChild);
+      var dir = (state.project || {}).creative_direction || '';
+      var pre = document.createElement('pre');
+      pre.style.cssText = 'white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.7;color:var(--text);';
+      pre.textContent = dir || 'Sin direccion creativa cargada';
+      cont.appendChild(pre);
+    }
+
+    function renderTimeline() {
+      var bar = document.getElementById('timelineBar');
+      var grid = document.getElementById('timelineGrid');
+      while (bar.firstChild) bar.removeChild(bar.firstChild);
+      while (grid.firstChild) grid.removeChild(grid.firstChild);
+      var clips = ((state.project || {}).clips || []);
+      var total = 0;
+      for (var i = 0; i < clips.length; i++) total += (clips[i].dur || 2);
+      for (var i = 0; i < clips.length; i++) {
+        var c = clips[i];
+        var seg = document.createElement('div');
+        seg.className = 'tl-seg ' + (c.type === 'image' ? 't-img' : c.type === 'endcard' ? 't-end' : 't-vid');
+        seg.style.width = ((c.dur || 2) / total * 100).toFixed(1) + '%';
+        seg.textContent = (i + 1);
+        seg.title = c._label || c.src;
+        bar.appendChild(seg);
+
+        var card = document.createElement('div'); card.className = 'clip-card';
+        var thumb = document.createElement('div'); thumb.className = 'clip-thumb';
+        thumb.textContent = c.type === 'image' ? '\uD83D\uDDBC' : c.type === 'endcard' ? '\uD83C\uDFC1' : '\uD83C\uDFAC';
+        var info = document.createElement('div'); info.className = 'clip-info';
+        var hdr = document.createElement('div'); hdr.className = 'clip-header';
+        var num = document.createElement('span'); num.className = 'clip-num'; num.textContent = '#' + (i + 1);
+        var lbl = document.createElement('span'); lbl.className = 'clip-label'; lbl.textContent = c._label || c.src;
+        hdr.appendChild(num); hdr.appendChild(lbl);
+        var meta = document.createElement('div'); meta.className = 'clip-meta';
+        meta.textContent = (c.type || 'video') + '  |  ' + (c.dur || '\u2014') + 's  |  ' + (c.fit || 'crop');
+        info.appendChild(hdr); info.appendChild(meta);
+        card.appendChild(thumb); card.appendChild(info);
+        grid.appendChild(card);
+      }
+    }
+
+    function renderReview() {
+      var cont = document.getElementById('reviewGrid');
+      while (cont.firstChild) cont.removeChild(cont.firstChild);
+      var clips = state.feedback.clips;
+      for (var i = 0; i < clips.length; i++) {
+        (function(idx) {
+          var c = clips[idx];
+          var card = document.createElement('div');
+          card.className = 'clip-card' + (c.status === 'approved' ? ' s-ok' : c.status === 'changes' ? ' s-ch' : c.status === 'rejected' ? ' s-no' : '');
+          card.id = 'rc-' + idx;
+
+          var thumb = document.createElement('div'); thumb.className = 'clip-thumb';
+          thumb.textContent = '\uD83C\uDFAC';
+
+          var info = document.createElement('div'); info.className = 'clip-info';
+          var hdr = document.createElement('div'); hdr.className = 'clip-header';
+          var num = document.createElement('span'); num.className = 'clip-num'; num.textContent = '#' + (idx + 1);
+          var lbl = document.createElement('span'); lbl.className = 'clip-label'; lbl.textContent = c.id;
+          hdr.appendChild(num); hdr.appendChild(lbl);
+
+          var meta = document.createElement('div'); meta.className = 'clip-meta';
+          meta.textContent = c.src;
+
+          var sg = document.createElement('div'); sg.className = 'status-group';
+          var pills = [['approved', 'sel-ok', 'OK'], ['changes', 'sel-ch', 'Cambios'], ['rejected', 'sel-no', 'Cortar']];
+          for (var p = 0; p < pills.length; p++) {
+            (function(pv, pc, pt) {
+              var pill = document.createElement('div');
+              pill.className = 'status-pill' + (c.status === pv ? ' ' + pc : '');
+              pill.textContent = pt;
+              pill.addEventListener('click', function() { setClipStatus(idx, pv); });
+              sg.appendChild(pill);
+            })(pills[p][0], pills[p][1], pills[p][2]);
+          }
+
+          var field = document.createElement('div'); field.className = 'field'; field.style.margin = '0';
+          var ta = document.createElement('textarea'); ta.rows = 2; ta.placeholder = 'Notas sobre este clip...';
+          ta.style.fontSize = '13px'; ta.value = c.notes;
+          ta.addEventListener('change', function() { state.feedback.clips[idx].notes = ta.value; saveState(); });
+          field.appendChild(ta);
+
+          info.appendChild(hdr); info.appendChild(meta); info.appendChild(sg); info.appendChild(field);
+          card.appendChild(thumb); card.appendChild(info);
+          cont.appendChild(card);
+        })(i);
+      }
+    }
+
+    // Toggle pills (multi-select)
+    function togglePill(el) {
+      el.classList.toggle('sel-ok');
+      saveState();
+    }
+    function getSelectedPills(containerId) {
+      var pills = document.getElementById(containerId).querySelectorAll('.sel-ok');
+      var vals = [];
+      for (var i = 0; i < pills.length; i++) vals.push(pills[i].getAttribute('data-val'));
+      return vals;
+    }
+
+    // Brief music type toggle
+    var bfMusicType = document.getElementById('bf-music-type');
+    if (bfMusicType) {
+      bfMusicType.addEventListener('change', function() {
+        var wrap = document.getElementById('bf-music-desc-wrap');
+        wrap.style.display = (bfMusicType.value === 'describe' || bfMusicType.value === 'search') ? 'block' : 'none';
+      });
+    }
+
+    // Duration slider
+    var bfDur = document.getElementById('bf-duration');
+    if (bfDur) {
+      bfDur.addEventListener('input', function() {
+        document.getElementById('bf-dur-label').textContent = bfDur.value + 's';
+      });
+    }
+
+    // Collect brief form data
+    function collectBrief() {
+      return {
+        client: (document.getElementById('bf-client') || {}).value || '',
+        project: (document.getElementById('bf-project') || {}).value || '',
+        type: (document.getElementById('bf-type') || {}).value || '',
+        description: (document.getElementById('bf-description') || {}).value || '',
+        aspect_ratios: getSelectedPills('bf-ratios'),
+        duration: parseInt((document.getElementById('bf-duration') || {}).value || '30', 10),
+        platforms: getSelectedPills('bf-platforms'),
+        mood: (document.getElementById('bf-mood') || {}).value || '',
+        references: (document.getElementById('bf-refs') || {}).value || '',
+        music: {
+          type: (document.getElementById('bf-music-type') || {}).value || 'provided',
+          description: (document.getElementById('bf-music-desc') || {}).value || ''
+        },
+        notes: (document.getElementById('bf-notes') || {}).value || ''
+      };
+    }
+
+    // Restore brief form from project data
+    function restoreBriefForm() {
+      var b = (state.project || {}).brief || {};
+      if (b.client) document.getElementById('bf-client').value = b.client;
+      if (b.project) document.getElementById('bf-project').value = b.project;
+      if (b.type) document.getElementById('bf-type').value = b.type;
+      if (b.description) document.getElementById('bf-description').value = b.description;
+      if (b.mood) document.getElementById('bf-mood').value = b.mood;
+      if (b.references) document.getElementById('bf-refs').value = b.references;
+      if (b.notes) document.getElementById('bf-notes').value = b.notes;
+      if (b.duration) { document.getElementById('bf-duration').value = b.duration; document.getElementById('bf-dur-label').textContent = b.duration + 's'; }
+      if (b.music) {
+        document.getElementById('bf-music-type').value = b.music.type || 'provided';
+        if (b.music.description) document.getElementById('bf-music-desc').value = b.music.description;
+      }
+      // Restore selected pills
+      if (Array.isArray(b.aspect_ratios)) {
+        var pills = document.getElementById('bf-ratios').querySelectorAll('.status-pill');
+        for (var i = 0; i < pills.length; i++) { if (b.aspect_ratios.indexOf(pills[i].getAttribute('data-val')) >= 0) pills[i].classList.add('sel-ok'); }
+      }
+      if (Array.isArray(b.platforms)) {
+        var pills = document.getElementById('bf-platforms').querySelectorAll('.status-pill');
+        for (var i = 0; i < pills.length; i++) { if (b.platforms.indexOf(pills[i].getAttribute('data-val')) >= 0) pills[i].classList.add('sel-ok'); }
+      }
+    }
+
+    function saveBriefAndContinue() {
+      var brief = collectBrief();
+      if (!state.project) state.project = { _meta: {}, clips: [] };
+      state.project.brief = brief;
+      state.project._meta.project = brief.client + ' x ' + brief.project;
+      document.getElementById('headerProject').textContent = state.project._meta.project;
+      state.phaseStatus.brief = 'approved';
+      state.feedback.brief = { status: 'approved', notes: '' };
+      document.getElementById('loadState').style.display = 'none';
+      saveState();
+      goPhase('material');
+    }
+
+    function downloadBrief() {
+      var brief = collectBrief();
+      var blob = new Blob([JSON.stringify(brief, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'brief-input.json'; a.click();
+    }
+
+    function approveBrief() { saveBriefAndContinue(); }
+    function approveMaterial() { state.phaseStatus.material = 'approved'; goPhase('direction'); }
+    function approveDirection() { state.phaseStatus.direction = 'approved'; state.feedback.direction = { status: 'approved', notes: document.getElementById('directionNotes').value }; goPhase('timeline'); }
+    function approveTimeline() { state.phaseStatus.timeline = 'approved'; state.feedback.timeline = { status: 'approved', notes: document.getElementById('timelineNotes').value }; goPhase('review'); }
+
+    function setClipStatus(i, s) { state.feedback.clips[i].status = s; renderReview(); saveState(); }
+
+    function setOverall(s) {
+      state.feedback.overall.status = s;
+      var pills = document.querySelectorAll('.overall-card .status-pill');
+      for (var i = 0; i < pills.length; i++) pills[i].className = 'status-pill';
+      var cls = s === 'approved' ? 'sel-ok' : s === 'iterate' ? 'sel-ch' : 'sel-no';
+      document.getElementById('ov-' + (s === 'approved' ? 'ok' : s === 'iterate' ? 'it' : 'no')).classList.add(cls);
+      saveState();
+    }
+
+    function buildReview() {
+      return {
+        _meta: { project: ((state.project || {})._meta || {}).project || 'Unknown', client: ((state.project || {}).brief || {}).client || 'Unknown', version: ((state.project || {})._meta || {}).version || 'v01', reviewed_at: new Date().toISOString(), tool: 'BMP Project Review v1.0' },
+        brief: state.feedback.brief,
+        creative_direction: state.feedback.direction,
+        timeline: state.feedback.timeline,
+        clips: state.feedback.clips,
+        overall: { status: state.feedback.overall.status, notes: (document.getElementById('overallNotes') || {}).value || '' }
+      };
+    }
+
+    function exportReview() {
+      var r = buildReview();
+      var blob = new Blob([JSON.stringify(r, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'review-' + r._meta.project.replace(/\s+/g, '_') + '-' + r._meta.version + '.json';
+      a.click();
+    }
+
+    function copyReview() {
+      navigator.clipboard.writeText(JSON.stringify(buildReview(), null, 2)).then(function() { alert('Review copiado'); });
+    }
+
+    /* ── Remotion Studio integration ── */
+    var REMOTION_PORT = 3001;
+    var REMOTION_COMPOSITION = 'PatriciaRuiz-Ad-V4';
+    var remotionFrameOpen = false;
+
+    function remotionUrl() {
+      return 'http://localhost:' + REMOTION_PORT;
+    }
+
+    function checkRemotionStatus() {
+      var dot  = document.getElementById('remotionDot');
+      var txt  = document.getElementById('remotionStatusText');
+      var msg  = document.getElementById('remotionOfflineMsg');
+      dot.className = 'r-dot checking';
+      txt.textContent = 'Comprobando…';
+      msg.style.display = 'none';
+      // no-cors request — resolves if server is up, network error if not
+      fetch(remotionUrl(), { mode: 'no-cors', cache: 'no-store' })
+        .then(function () {
+          dot.className = 'r-dot online';
+          txt.textContent = 'localhost:' + REMOTION_PORT;
+          txt.style.color = 'var(--green)';
+          msg.style.display = 'none';
+          // if frame is already open, refresh src
+          if (remotionFrameOpen) {
+            var f = document.getElementById('remotionFrame');
+            if (!f.src || f.src === window.location.href) f.src = remotionUrl();
+          }
+        })
+        .catch(function () {
+          dot.className = 'r-dot offline';
+          txt.textContent = 'Offline';
+          txt.style.color = 'var(--danger)';
+          msg.style.display = 'block';
+          // close frame if open
+          if (remotionFrameOpen) closeRemotionFrame();
+        });
+    }
+
+    function toggleRemotionFrame() {
+      if (remotionFrameOpen) { closeRemotionFrame(); } else { openRemotionFrame(); }
+    }
+
+    function openRemotionFrame() {
+      var wrap = document.getElementById('remotionFrameWrap');
+      var frame = document.getElementById('remotionFrame');
+      var btn   = document.getElementById('remotionToggleBtn');
+      frame.src = remotionUrl();
+      wrap.classList.add('open');
+      btn.innerHTML = '✕&nbsp; Cerrar panel';
+      remotionFrameOpen = true;
+    }
+
+    function closeRemotionFrame() {
+      var wrap  = document.getElementById('remotionFrameWrap');
+      var frame = document.getElementById('remotionFrame');
+      var btn   = document.getElementById('remotionToggleBtn');
+      frame.src = '';
+      wrap.classList.remove('open');
+      btn.innerHTML = '▶&nbsp; Ver en panel';
+      remotionFrameOpen = false;
+    }
+
+    function openRemotionTab() {
+      window.open(remotionUrl(), '_blank', 'noopener');
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        var el = document.getElementById('autosaveStatus');
+        el.textContent = 'Guardado'; el.className = 'autosave ok';
+        setTimeout(function() { el.textContent = 'Auto-guardado'; el.className = 'autosave'; }, 2000);
+      } catch (e) {}
+    }
+
+    function restoreState() {
+      try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          var p = JSON.parse(saved);
+          if (p.project) {
+            state = p;
+            document.getElementById('loadState').style.display = 'none';
+            document.getElementById('headerProject').textContent = ((state.project || {})._meta || {}).project || '\u2014';
+            document.getElementById('headerVersion').textContent = ((state.project || {})._meta || {}).version || '\u2014';
+            renderAll(); goPhase(state.phase);
+          }
+        }
+      } catch (e) {}
+    }
+
+    // fileInput2 for loading project from brief page
+    var fi2 = document.getElementById('fileInput2');
+    if (fi2) fi2.addEventListener('change', function(e) { if (e.target.files[0]) readFile(e.target.files[0]); });
+
+    document.addEventListener('input', function() { clearTimeout(window._st); window._st = setTimeout(saveState, 500); });
+
+    // Show brief phase by default on fresh load
+    if (!state.project) {
+      document.getElementById('phase-brief').classList.add('active');
+    }
+    restoreState();
+  </script>
+</body>
+</html>
