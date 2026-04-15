@@ -13,41 +13,54 @@
 
 ## Instalación en Windows (WSL2)
 
-> **Para el usuario de Windows: no tienes que hacer NADA manualmente.**
+> **Para el usuario de Windows: no tienes que hacer NADA.**
+> No tienes que cambiar de sistema operativo ni instalar nada raro.
 > Solo abre Claude Code y dile:
 >
 > *"Instala el toolkit de BMP Video Production desde
-> https://github.com/xavierbmp/bmp-video-production — lee INSTALL.md y sigue todos los pasos"*
+> https://github.com/xavierbmp/bmp-video-production — lee INSTALL.md"*
 >
-> Claude detectará que estás en Windows e instalará todo automáticamente.
+> Claude hace TODO automáticamente en tu Windows.
 
-### Qué hace Claude en Windows (todo automático):
+### Qué instala Claude en Windows (automático, sin tocar nada):
 
-1. Detecta que el sistema es Windows
-2. Comprueba si WSL2 está instalado, si no lo instala:
-   ```powershell
-   wsl --install -d Ubuntu
-   ```
-   (Puede pedir reiniciar — Claude avisará)
-3. Dentro de WSL2/Ubuntu, instala todas las dependencias:
-   ```bash
-   sudo apt install -y ffmpeg jq python3 python3-venv nodejs npm ...
-   ```
-4. Clona el repo, crea el venv Python, instala Remotion, crea carpetas
-5. Verifica que todo funciona
+```powershell
+# 1. Instalar Chocolatey (gestor de paquetes para Windows, como brew en Mac)
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-> **Nota:** WSL2 no cambia nada del PC. Es como una app más.
-> Los archivos se acceden desde Windows en `\\wsl$\Ubuntu\home\tu_usuario\`.
+# 2. Instalar herramientas (todo en Windows nativo, sin WSL)
+choco install -y git ffmpeg python3 nodejs-lts jq imagemagick tesseract
 
-### Si Claude Code está en Windows nativo (sin WSL2):
+# 3. Clonar el repo
+git clone https://github.com/xavierbmp/bmp-video-production.git
+cd bmp-video-production
 
-Los scripts de Python (`face-detect-crop.py`, `split-screen-expand.py`, `render-edit.py`,
-`bpm.py`) funcionan directamente en Windows si ffmpeg está en el PATH.
-Los scripts .sh necesitan WSL2 o Git Bash.
+# 4. Crear entorno Python
+python -m venv _SYSTEM\.venv
+_SYSTEM\.venv\Scripts\pip install opencv-python-headless faster-whisper librosa numpy Pillow moviepy soundfile color-matcher stable-ts scipy scikit-image
 
-**Opción rápida sin WSL2:** Instalar solo ffmpeg + Python + Node.js en Windows
-y usar los scripts .py directamente. Claude puede adaptar los comandos .sh
-a equivalentes de PowerShell si es necesario.
+# 5. Instalar Remotion
+cd _SYSTEM\motion\bmp-motion
+npm install
+cd ..\..\..
+
+# 6. Crear carpetas locales
+mkdir CLIENTS, 00_INBOX, _DELIVERABLES
+```
+
+### Cómo funciona en Windows:
+
+- **Scripts .py** (render-edit.py, face-detect-crop.py, bpm.py, split-screen-expand.py):
+  funcionan directamente en Windows. Son los más importantes.
+- **Scripts .sh** (trim.sh, concat.sh, etc.): Claude traduce los comandos a
+  equivalentes de PowerShell/cmd automáticamente. El usuario no nota nada.
+- **ffmpeg**: funciona exactamente igual en Windows que en Mac.
+- **Remotion**: funciona exactamente igual (Node.js es multiplataforma).
+
+> **No se cambia nada del PC.** Solo se instalan programas normales
+> (como instalar Chrome o Spotify). Se desinstalan si quieres.
 
 ---
 
