@@ -3,7 +3,59 @@
 > **Para Claude:** Lee este archivo completo y ejecuta los comandos en orden.
 > Si alguno falla, diagnóstica y arregla antes de continuar.
 
-## Requisitos previos
+## Plataformas soportadas
+
+- **macOS** (Apple Silicon o Intel) — nativo
+- **Windows 10/11** — via WSL2 (Windows Subsystem for Linux)
+- **Linux** (Ubuntu/Debian) — nativo
+
+---
+
+## Instalación en Windows (WSL2)
+
+> Los scripts usan bash, ffmpeg y herramientas Unix. En Windows, lo más
+> fiable es WSL2 — un Linux real dentro de Windows. Todo funciona igual.
+
+### Paso 0 — Instalar WSL2
+
+Abrir **PowerShell como Administrador** y ejecutar:
+
+```powershell
+wsl --install -d Ubuntu
+```
+
+Reiniciar el PC. Al arrancar, se abrirá Ubuntu pidiendo usuario y contraseña.
+
+**Después, todo se hace DENTRO de la terminal Ubuntu (WSL2).**
+
+```bash
+# Actualizar
+sudo apt update && sudo apt upgrade -y
+
+# Instalar dependencias base
+sudo apt install -y git curl wget build-essential python3 python3-venv python3-pip \
+  ffmpeg jq mediainfo imagemagick tesseract-ocr sox rubberband-cli nodejs npm
+
+# Instalar Node.js 18+ (si apt instala una versión vieja)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verificar
+ffmpeg -version | head -1
+node --version
+python3 --version
+```
+
+**Continuar con el Paso 1 (Clonar) desde la terminal WSL2.**
+
+> **Nota:** Los archivos de WSL2 se acceden desde Windows en `\\wsl$\Ubuntu\home\tu_usuario\`.
+> Los editores como VS Code detectan WSL automáticamente.
+
+---
+
+## Instalación en macOS
+
+### Requisitos previos
 
 - macOS (Apple Silicon o Intel)
 - Homebrew instalado (`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`)
@@ -23,20 +75,28 @@ cd "00_BMP/02_VIDEO EDITS"
 
 ---
 
-## Paso 2 — Instalar herramientas de sistema (brew)
+## Paso 2 — Instalar herramientas de sistema
 
+### macOS (Homebrew)
 ```bash
-# Core video/audio
 brew install ffmpeg jq mediainfo imagemagick tesseract sox rubberband yt-dlp
-
-# Versión completa de ffmpeg con todos los codecs
-brew install ffmpeg-full 2>/dev/null || echo "ffmpeg already installed"
-
-# Fonts editoriales
 brew install --cask font-playfair-display font-inter font-libre-baskerville font-dm-serif-display
 ```
 
-**Verificar:**
+### Linux / WSL2 (apt)
+```bash
+sudo apt install -y ffmpeg jq mediainfo imagemagick tesseract-ocr sox rubberband-cli
+
+# Fonts
+sudo apt install -y fonts-inter
+# Playfair y DM Serif: descargar de Google Fonts
+mkdir -p ~/.local/share/fonts
+wget -qO- "https://fonts.google.com/download?family=Playfair+Display" > /tmp/pf.zip && unzip -o /tmp/pf.zip -d ~/.local/share/fonts/
+wget -qO- "https://fonts.google.com/download?family=DM+Serif+Display" > /tmp/dm.zip && unzip -o /tmp/dm.zip -d ~/.local/share/fonts/
+fc-cache -f -v
+```
+
+**Verificar (ambos sistemas):**
 ```bash
 ffmpeg -version | head -1
 ffprobe -version | head -1
@@ -86,10 +146,20 @@ _SYSTEM/.venv/bin/python3 -c "import librosa; print('librosa OK')"
 
 ## Paso 4 — Instalar herramientas CLI (pipx)
 
+### macOS
 ```bash
 brew install pipx
 pipx ensurepath
+```
 
+### Linux / WSL2
+```bash
+sudo apt install -y pipx
+pipx ensurepath
+```
+
+### Ambos sistemas
+```bash
 pipx install auto-editor
 pipx install openai-whisper
 ```
@@ -221,7 +291,10 @@ Los proyectos de clientes no se tocan (están en .gitignore).
 
 ### "ffmpeg not found"
 ```bash
+# macOS
 brew install ffmpeg
+# Linux/WSL2
+sudo apt install -y ffmpeg
 ```
 
 ### "No module named 'cv2'"
@@ -243,6 +316,23 @@ chmod +x _SYSTEM/scripts/*.sh _SYSTEM/scripts/*.py
 
 ### Fonts no aparecen en ffmpeg
 ```bash
+# macOS
 brew install --cask font-playfair-display font-inter font-dm-serif-display font-libre-baskerville
-# Las fonts se instalan en ~/Library/Fonts/
+# Linux/WSL2
+sudo apt install -y fonts-inter
+# O descargar de Google Fonts a ~/.local/share/fonts/ y correr fc-cache -f
+```
+
+### WSL2: "cannot access Windows files"
+```bash
+# Los archivos de Windows están en /mnt/c/, /mnt/d/, etc.
+ls /mnt/c/Users/TuNombre/Desktop/
+# Pero es MEJOR trabajar dentro de ~/  (filesystem nativo de Linux, más rápido)
+```
+
+### WSL2: ffmpeg muy lento
+```bash
+# Trabaja DENTRO del filesystem de WSL2, no en /mnt/c/
+# Copiar material del disco C al home:
+cp -r /mnt/c/Users/TuNombre/Videos/proyecto ~/proyecto
 ```
