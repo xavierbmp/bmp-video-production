@@ -13,43 +13,48 @@
 
 ## Instalación en Windows (WSL2)
 
-> Los scripts usan bash, ffmpeg y herramientas Unix. En Windows, lo más
-> fiable es WSL2 — un Linux real dentro de Windows. Todo funciona igual.
+> Los scripts usan bash, ffmpeg y herramientas Unix. En Windows se usa
+> WSL2 (una terminal Linux dentro de Windows). No cambia nada del PC,
+> es como instalar una app más.
 
-### Paso 0 — Instalar WSL2
+### Lo que Bernat (o cualquier usuario Windows) hace manualmente (5 min, 1 sola vez):
 
-Abrir **PowerShell como Administrador** y ejecutar:
+1. Abrir **PowerShell como Administrador**
+2. Escribir: `wsl --install -d Ubuntu`
+3. Reiniciar el PC
+4. Se abrirá Ubuntu → poner usuario y contraseña
+5. Instalar Claude Code dentro de Ubuntu:
+   ```bash
+   curl -fsSL https://cli.claude.ai/install.sh | sh
+   ```
+6. Listo. A partir de aquí, todo lo hace Claude.
 
-```powershell
-wsl --install -d Ubuntu
-```
+### Lo que hace Claude Code (automático, el usuario no toca nada):
 
-Reiniciar el PC. Al arrancar, se abrirá Ubuntu pidiendo usuario y contraseña.
+**El usuario solo dice:** "Instala el toolkit de BMP Video Production"
 
-**Después, todo se hace DENTRO de la terminal Ubuntu (WSL2).**
-
+**Claude ejecuta:**
 ```bash
-# Actualizar
+# Dependencias del sistema
 sudo apt update && sudo apt upgrade -y
-
-# Instalar dependencias base
 sudo apt install -y git curl wget build-essential python3 python3-venv python3-pip \
-  ffmpeg jq mediainfo imagemagick tesseract-ocr sox rubberband-cli nodejs npm
+  ffmpeg jq mediainfo imagemagick tesseract-ocr sox rubberband-cli unzip
 
-# Instalar Node.js 18+ (si apt instala una versión vieja)
+# Node.js 18+
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs
 
-# Verificar
-ffmpeg -version | head -1
-node --version
-python3 --version
+# Clonar el repo
+cd ~
+git clone https://github.com/xavierbmp/bmp-video-production.git "BMP"
+cd BMP
+
+# Seguir con Paso 3 (Python), Paso 4 (pipx), Paso 5 (Remotion), etc.
+# → Todos los pasos de abajo los ejecuta Claude automáticamente
 ```
 
-**Continuar con el Paso 1 (Clonar) desde la terminal WSL2.**
-
 > **Nota:** Los archivos de WSL2 se acceden desde Windows en `\\wsl$\Ubuntu\home\tu_usuario\`.
-> Los editores como VS Code detectan WSL automáticamente.
+> VS Code detecta WSL automáticamente si se instala la extensión "WSL".
 
 ---
 
